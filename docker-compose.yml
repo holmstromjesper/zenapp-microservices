@@ -1,0 +1,28 @@
+version: '2.1'
+services:
+  usermongodb:
+    container_name: usermongodb
+    build: ./userService/db
+    volumes:
+      - /data/db
+    ports: 
+      - 27017:27017
+    #command: --quiet
+    healthcheck:
+      test: exit 0
+
+  userservice:
+    image: userservice
+    build: ./userService
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    volumes: 
+      - "./userService:/src/app"
+      - "./userService/package.json:/src/package.json"
+    depends_on:
+      usermongodb:
+        condition: service_healthy
+    links: 
+      - usermongodb
