@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 var UserModelSchema = new Schema({
+    userID: {
+        type: Number,
+        unique: true,
+        required: true
+    },
     name:{ 
         firstname: {
             type: String,
@@ -11,12 +17,7 @@ var UserModelSchema = new Schema({
             required: true
         },
     },
-    id: {
-        type: Number,
-        unique: true,
-        required: true
-    },
-    status: {
+    userLevel: {
         type: Number,
         required: true
     },
@@ -28,23 +29,6 @@ var UserModelSchema = new Schema({
         type: String,
         required: true
     },
-    subscriptions: [{type: Number}],
-    position:{
-        timestamp: {
-            type: Number,
-            default: Date.now(),
-            required:true
-        },
-        lat: {
-            type: Number,
-            default: null
-        },
-        long: {
-            type: Number,
-            default: null
-        }
-    }
-   
 });
 var UserModel = mongoose.model('UserModel', UserModelSchema);
 

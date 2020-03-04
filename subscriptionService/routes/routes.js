@@ -1,10 +1,11 @@
-const userController = require("../controllers/userController.js");
+const userSubscriptionController = require("../controllers/subscriptionController.js");
 const path = require('path');
 
 
 module.exports = (app) => {
-    // manage users - returns one ore more users - creates new users.
-    app.route('/users')
-    .get(userController.getUsers)
-    .post(userController.createUser);
-  }
+    console.log("usersubscriptionsCalled")
+    
+    app.route('/subscriptions')
+    .get(userSubscriptionController.getUserSubscriptions)
+    .post(userSubscriptionController.subscribe);
+}

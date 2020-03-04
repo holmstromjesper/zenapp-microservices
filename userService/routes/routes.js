@@ -1,5 +1,4 @@
 const userController = require("../controllers/userController.js");
-const path = require('path');
 
 
 module.exports = (app) => {

@@ -1,0 +1,15 @@
+###
+POST http://localhost:3002/positions HTTP/1.1
+Content-Type: application/json
+
+{
+    "userID": a,
+    "userPosition":{
+        "lat": 56,
+        "long": 55
+    }
+}
+
+######
+GET http://localhost:3002/positions?userID=0 HTTP/1.1
+

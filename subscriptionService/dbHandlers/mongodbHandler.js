@@ -1,27 +1,45 @@
 //import of mongoose
 const mongoose = require('mongoose');
-const UserModel = require('../models/usermodelschema');
-const ThirdPartyServiceModel = require('../models/thirdpartyservicemodel');
+const UserSubscriptionModel = require('../models/usersubscriptionmodel.js');
 // setup connection
-const mongoURL = 'mongodb://mongo:27017/database';
+const mongoURL = 'mongodb://subscriptionmongodb:27017/database';
 mongoose.connect(mongoURL, {useNewUrlParser: true});
+mongoose.set('useFindAndModify', false);
+
 // connect to db
 const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'MongoDB connection errror:'))
+db.on('error', console.error.bind(console, 'USERSUBSCRIPTIONS MongoDB connection error:'))
 
-exports.getUserSubscriptions = async (id) => {
-    var query = await UserModel.findOne({'id': id}).catch(err => {
-        return false;
+exports.getUserSubscriptions = async (userID) => {
+    console.log(userID)
+    let response;
+    var query = await UserSubscriptionModel.findOne({'userID': userID}, (err,res)=>{
+        if(err){
+            console.log("error in finding users subscriptions")
+        }
+        if(!res){
+            console.log("no match was found user subscriptions or matching user where found")
+        }
     });
-    return query.subscriptions;
+    console.log(`[GET USERS SUBSCRIPTIONS SERVICE] userID: ${userID}
+    query: ${query}`);
+    return query;
 }
 
-exports.subscribe = async (userID, serviceID) => {
-    var query = await UserModel.findOneAndUpdate({'id':userID}, {$addToSet: {'subscriptions': serviceID}})
+exports.subscribe = async (userID, serviceObject) => {   
+    var query =  await UserSubscriptionModel.findOneAndUpdate(
+        {'userID':userID, 'subscriptions.serviceID' : {$ne : serviceObject.serviceID}}, 
+        {$push: {'subscriptions': serviceObject}},
+        {new: true}
+        )
     .catch(err => {
+        console.log("error recieved")    
         console.log(err.message)
         return false
     });
+    console.log(`[USERSUBSRIBING TO SERVICE QUERY] userID: ${userID}, serviceID: ${serviceObject.serviceID}
+    query: ${query}`);
+
     return query
 }

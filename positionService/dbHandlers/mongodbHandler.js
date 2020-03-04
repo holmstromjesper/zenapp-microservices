@@ -1,119 +1,50 @@
 
 //import of mongoose
 const mongoose = require('mongoose');
-const UserModel = require('../models/usermodelschema');
-const ThirdPartyServiceModel = require('../models/thirdpartyservicemodel');
+const UserPositionModel = require('../models/userpositionmodel');
 // setup connection
-const mongoURL = 'mongodb://mongo:27017/database';
+const mongoURL = 'mongodb://positionmongodb:27017/database';
 mongoose.connect(mongoURL, {useNewUrlParser: true});
 // connect to db
 const db = mongoose.connection;
-
 db.on('error', console.error.bind(console, 'MongoDB connection errror:'))
 
 
-exports.addNewService = async (newServiceObject) => {
-    var newService = new ThirdPartyServiceModel(newServiceObject);
-    /*await newService.save(async (err)  =>  {
-        if(err){
-            console.log('error in bulkwrite of user: ',err)
-            return false;
-        } else {
-            console.log('Service saved successfully');
-            return true;
-        }
-    })*/
-    return await newService.save();
-};
-
-
-exports.createUser = (userObject) => {
-    var newUser = new UserModel(userObject);
-
-    newUser.save(err => {
-        if(err){
-            console.log(err)
-        } else {
-            console.log('User saved successfully');
-        }
-    });
-};
-const getAllUsers = async ()  =>{
-    return query = await UserModel.find({}).catch((err) =>{
-        console.log('error:', err.message)
-        return false;
-    });
-}
-exports.findUser = async (ids) => {
-    
-    if(ids == null){
-        return getAllUsers();
-    } 
-    return query = await UserModel.find({'id': {$in : ids}}).catch((err) =>{
-        console.log('error:', err.message)
-        return false;
-    });
-}
-
-exports.updatePosition = async (positionObject, id) => {
+exports.updatePosition = async (positionObject, userID) => {
     positionObject['timestamp']= Date.now();
-    var query = await UserModel.findOneAndUpdate({'id': id},  { 'position' : positionObject }, {new: true}).catch((err)=>{
+    var query = await UserPositionModel.findOneAndUpdate(
+        {'userID': userID},  
+        { 'position' : positionObject }, 
+        {new: true},
+        (err,res) => {
+            if(err){
+                console.log("error in updating user position")
+            }
+            if(!res){
+                console.log("no user were found")
+            }
+        })
+    .catch((err)=>{
         console.log(err.message)
-        return false;
     });
+    console.log(`[UPDATE USER POSITION SERVICE] userID: ${userID}, position: ${positionObject}
+    user: ${user}`);
     return query; 
 }
 
 exports.getPosition = async (userID) => {
-    var user = await UserModel.findOne({'id': userID}).catch((err)=>{
+    var userPosition = await UserPositionModel.findOne({'userID': userID}, (err,res) => {
+        if(err){
+            console.log("error in finding user position")
+        }
+        if(!res){
+            console.log("no matching user where found for updating the position")
+        }
+    }).catch(err=>{
         console.log(err.message)
-        return false
     });
-    return user.position;
+    console.log(`[GET USERS SUBSCRIPTIONS SERVICE] userID: ${userID}
+    position: ${userPosition}`);
+    
+    return userPosition;
 }
-
-const getAllServices = async () => {
-    return query = await ThirdPartyServiceModel.find({}).catch((err)=>{
-        console.log(err.message)
-        return false;
-    });
-}
-exports.getServices = async (ids) => {
-    if(ids == null){
-        return getAllServices();
-    } 
-    return query = await ThirdPartyServiceModel.find({id: {$in :ids}}).catch((err)=>{
-        console.log('error: ',err.message)
-        return false;
-    });
-}
-
-exports.setServiceStatus = async ({id, active}) => {
-    var query = await ThirdPartyServiceModel.findOneAndUpdate({'id': id}, {'active': active})
-    .catch(err=>{
-        console.log('error in setServiceStatus: ',err.message)
-        return false;
-    })
-    return query;
-}
-
-
-
-
-exports.getUserSubscriptions = async (id) => {
-    var query = await UserModel.findOne({'id': id}).catch(err => {
-        return false;
-    });
-    return query.subscriptions;
-}
-
-exports.subscribe = async (userID, serviceID) => {
-    var query = await UserModel.findOneAndUpdate({'id':userID}, {$addToSet: {'subscriptions': serviceID}})
-    .catch(err => {
-        console.log(err.message)
-        return false
-    });
-    return query
-}
-
- 

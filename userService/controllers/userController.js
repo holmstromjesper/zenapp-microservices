@@ -1,7 +1,6 @@
 const mongoDBHandler = require('../dbHandlers/mongodbHandler');
 
 exports.getUsers = async (req, res) => {
-    console.log("HALLÅ")
     if(req.query.userIDs == null || req.query.userIDs === "[]"){
         let user = await mongoDBHandler.findUser();
     } 
