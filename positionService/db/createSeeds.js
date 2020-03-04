@@ -1,7 +1,7 @@
 var fs = require('fs')
 var jsonArray = [];
 
-for(let i = 0; i<10000; i++){
+for(let i = 1; i<10000; i++){
     let randomStatus = Math.floor(Math.random() * (4))
     var userPosition = {
         userID: i,

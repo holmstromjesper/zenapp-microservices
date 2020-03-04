@@ -1,7 +1,7 @@
 version: '2.1'
 services:
 
-############################################## user service ##############################################
+  ############################################## user service ##############################################
 
   # usermongodb:
   #   container_name: usermongodb
@@ -29,7 +29,7 @@ services:
   #   links: 
   #     - usermongodb
 
-############################################## subscription service ##############################################
+  ############################################## subscription service ##############################################
   # subscriptionmongodb:
   #   container_name: subscriptionmongodb
   #   build: ./subscriptionService/db
@@ -97,7 +97,7 @@ services:
     # healthcheck:
     #   test: exit 0
 
-    thirdpartyservice:
+  thirdpartyservice:
     image: thirdpartyservice
     build: ./thirdpartyService
     environment:
@@ -111,3 +111,35 @@ services:
       - thirdpartyservicemongodb
     links: 
       - thirdpartyservicemongodb
+
+  ############################################## API COMPOSER SERVICE ##############################################
+  # apicomposer:
+  #   image: apicomposerservice
+  #   build: ./apiComposerService
+  #   environment:
+  #     NODE_ENV: production
+  #   ports:
+  #     - 3004:3000
+  #   volumes: 
+  #     - "./apiComposerService:/src/app"
+  #     - "./apiComposerService/package.json:/src/package.json"
+  #   depends_on:
+  #     - thirdpartyservice
+  #     - userservice
+  #     - positionservice
+  #   links: 
+  #     - thirdpartyservice
+  #     - userservice
+  #     - positionservice
+
+  ############################################## example carwash service ##############################################
+  # carwashservice:
+  #   image: carwashservice
+  #   build: ./carwashService
+  #   environment:
+  #     NODE_ENV: production
+  #   ports:
+  #     - 3005:3000
+  #   volumes: 
+  #     - "./carwashService:/src/app"
+  #     - "./carwashService/package.json:/src/package.json"
