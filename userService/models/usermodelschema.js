@@ -29,6 +29,7 @@ var UserModelSchema = new Schema({
         type: String,
         required: true
     },
+    experiment: Number
 });
 var UserModel = mongoose.model('UserModel', UserModelSchema);
 

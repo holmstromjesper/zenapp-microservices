@@ -13,7 +13,8 @@ var UserSubscriptionModelSchema = new Schema({
             serviceID: Number,
             settings: Object
         }
-    ]
+    ],
+    experiment: Number
 });
 var UserSubscriptionModel = mongoose.model('UserSubscriptionModel', UserSubscriptionModelSchema);
 

@@ -16,7 +16,8 @@ var ThirdPartyServiceModelSchema = new Schema({
         long: Number
     },
     active: Number,
-    settings : []
+    settings : [],
+    experiment: Number
 });
 var ThirdPartyServiceModel = mongoose.model('ThirdPartyServiceModel', ThirdPartyServiceModelSchema);
 

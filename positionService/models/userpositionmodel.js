@@ -21,8 +21,8 @@ var UserPositionSchema = new Schema({
             type: Number,
             default: null
         }
-    }
-   
+    },
+    experiment: Number
 });
 var UserPositionModel = mongoose.model('UserPositionModel', UserPositionSchema);
 

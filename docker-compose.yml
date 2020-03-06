@@ -3,33 +3,34 @@ services:
 
   ############################################## user service ##############################################
 
-  # usermongodb:
-  #   container_name: usermongodb
-  #   build: ./userService/db
-  #   volumes:
-  #     - /data/db
-  #   ports: 
-  #     - 27017:27017
-  #   # command: --quiet
-  #   # healthcheck:
-  #   #   test: exit 0
+  usermongodb:
+    container_name: usermongodb
+    build: ./userService/db
+    volumes:
+      - /data/db
+    ports: 
+      - 27017:27017
+    # command: --quiet
+    # healthcheck:
+    #   test: exit 0
 
-  # userservice:
-  #   image: userservice
-  #   build: ./userService
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 3000:3000
-  #   volumes: 
-  #     - "./userService:/src/app"
-  #     - "./userService/package.json:/src/package.json"
-  #   depends_on:
-  #     - usermongodb
-  #   links: 
-  #     - usermongodb
+  userservice:
+    image: userservice
+    build: ./userService
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    volumes: 
+      - "./userService:/src/app"
+      - "./userService/package.json:/src/package.json"
+    depends_on:
+      - usermongodb
+    links: 
+      - usermongodb
 
   ############################################## subscription service ##############################################
+
   # subscriptionmongodb:
   #   container_name: subscriptionmongodb
   #   build: ./subscriptionService/db
@@ -86,31 +87,31 @@ services:
 
   ############################################## thirdparty service ##############################################
 
-  thirdpartyservicemongodb:
-    container_name: thirdpartyservicemongodb
-    build: ./thirdpartyService/db
-    volumes:
-      - /data/db
-    ports: 
-      - 27020:27017
-    # command: --quiet
-    # healthcheck:
-    #   test: exit 0
+  # thirdpartyservicemongodb:
+  #   container_name: thirdpartyservicemongodb
+  #   build: ./thirdpartyService/db
+  #   volumes:
+  #     - /data/db
+  #   ports: 
+  #     - 27020:27017
+  #   # command: --quiet
+  #   # healthcheck:
+  #   #   test: exit 0
 
-  thirdpartyservice:
-    image: thirdpartyservice
-    build: ./thirdpartyService
-    environment:
-      NODE_ENV: production
-    ports:
-      - 3003:3000
-    volumes: 
-      - "./thirdpartyService:/src/app"
-      - "./thirdpartyService/package.json:/src/package.json"
-    depends_on:
-      - thirdpartyservicemongodb
-    links: 
-      - thirdpartyservicemongodb
+  # thirdpartyservice:
+  #   image: thirdpartyservice
+  #   build: ./thirdpartyService
+  #   environment:
+  #     NODE_ENV: production
+  #   ports:
+  #     - 3003:3000
+  #   volumes: 
+  #     - "./thirdpartyService:/src/app"
+  #     - "./thirdpartyService/package.json:/src/package.json"
+  #   depends_on:
+  #     - thirdpartyservicemongodb
+  #   links: 
+  #     - thirdpartyservicemongodb
 
   ############################################## API COMPOSER SERVICE ##############################################
   # apicomposer:
