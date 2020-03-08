@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const UserPositionModel = require('../models/userpositionmodel');
 // setup connection
 const mongoURL = 'mongodb://positionmongodb:27017/database';
-mongoose.connect(mongoURL, {useNewUrlParser: true});
+mongoose.connect(mongoURL, {useNewUrlParser: true}).catch(error => console.log(error));
+
 // connect to db
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection errror:'))
@@ -33,6 +34,11 @@ exports.updatePosition = async (positionObject, userID) => {
 }
 
 exports.getPosition = async (userID) => {
+    console.log("running getPos 1");
+    console.log('connecntioN?',mongoose.connection.readyState);
+
+    var query = await UserPositionModel.find({'userID': 1});
+    console.log('query:', query);
     var userPosition = await UserPositionModel.findOne({'userID': userID}, (err,res) => {
         if(err){
             console.log("error in finding user position")
@@ -43,8 +49,11 @@ exports.getPosition = async (userID) => {
     }).catch(err=>{
         console.log(err.message)
     });
+    console.log("running getPos 2");
+
     console.log(`[GET USERS SUBSCRIPTIONS SERVICE] userID: ${userID}
     position: ${userPosition}`);
-    
+    console.log("running getPos 3");
+
     return userPosition;
 }

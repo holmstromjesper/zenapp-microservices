@@ -1,7 +1,7 @@
 var fs = require('fs')
 var jsonArray = [];
 // EXPERIMENT 1
-for(let i = 1; i<10000; i++){
+for(let i = 0; i<10000; i++){
     let randomStatus = Math.floor(Math.random() * (4))
     var userPosition = {
         userID: i,
@@ -14,7 +14,7 @@ for(let i = 1; i<10000; i++){
     jsonArray.push(userPosition);
 }
 // EXPERIMENT 2
-for(let i = 1; i<10000; i++){
+for(let i = 10000; i<20000; i++){
   let randomStatus = Math.floor(Math.random() * (4))
   var userPosition = {
       userID: i,
@@ -27,7 +27,7 @@ for(let i = 1; i<10000; i++){
   jsonArray.push(userPosition);
 }
 // EXPERIMENT 3
-for(let i = 1; i<10000; i++){
+for(let i = 20000; i<30000; i++){
   let randomStatus = Math.floor(Math.random() * (4))
   var userPosition = {
       userID: i,
@@ -40,5 +40,5 @@ for(let i = 1; i<10000; i++){
   
   jsonArray.push(userPosition);
 }
-fs.writeFile('userPosSeed.json', JSON.stringify(jsonArray), 'utf8', () => console.log('wrote to: userPosSeed' ));
+fs.writeFile('mongo_fixtures/userposseed.json', JSON.stringify(jsonArray), 'utf8', () => console.log('wrote to: userposseed' ));
 

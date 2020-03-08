@@ -22,6 +22,8 @@ jsonArray.push(service);
 for(let i = 1; i<200; i++){
     if(i>99){
         isActive=0
+    }else{
+        isActive=1
     }
 
     service = {
@@ -42,9 +44,11 @@ for(let i = 1; i<200; i++){
     jsonArray.push(service);
 };
 // experiment 2
-for(let i = 1; i<200; i++){
-    if(i>99){
+for(let i = 200; i<400; i++){
+    if(i>299){
         isActive=0
+    }else{
+        isActive=1
     }
 
     service = {
@@ -65,9 +69,11 @@ for(let i = 1; i<200; i++){
     jsonArray.push(service);
 };
 // experiment 3
-for(let i = 1; i<200; i++){
-    if(i>99){
+for(let i = 400; i<600; i++){
+    if(i>499){
         isActive=0
+    }else{
+        isActive=1
     }
 
     service = {

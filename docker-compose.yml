@@ -3,31 +3,31 @@ services:
 
   ############################################## user service ##############################################
 
-  usermongodb:
-    container_name: usermongodb
-    build: ./userService/db
-    volumes:
-      - /data/db
-    ports: 
-      - 27017:27017
-    # command: --quiet
-    # healthcheck:
-    #   test: exit 0
+  # usermongodb:
+  #   container_name: usermongodb
+  #   build: ./userService/db
+  #   volumes:
+  #     - /data/db
+  #   ports: 
+  #     - 27017:27017
+  #   # command: --quiet
+  #   # healthcheck:
+  #   #   test: exit 0
 
-  userservice:
-    image: userservice
-    build: ./userService
-    environment:
-      NODE_ENV: production
-    ports:
-      - 3000:3000
-    volumes: 
-      - "./userService:/src/app"
-      - "./userService/package.json:/src/package.json"
-    depends_on:
-      - usermongodb
-    links: 
-      - usermongodb
+  # userservice:
+  #   image: userservice
+  #   build: ./userService
+  #   environment:
+  #     NODE_ENV: production
+  #   ports:
+  #     - 3000:3000
+  #   volumes: 
+  #     - "./userService:/src/app"
+  #     - "./userService/package.json:/src/package.json"
+  #   depends_on:
+  #     - usermongodb
+  #   links: 
+  #     - usermongodb
 
   ############################################## subscription service ##############################################
 
@@ -38,9 +38,6 @@ services:
   #     - /data/db
   #   ports: 
   #     - 27018:27017
-  #   # command: --quiet
-  #   # healthcheck:
-  #   #   test: exit 0
 
   # subscriptionservice:
   #   image: subscriptionservice
@@ -64,27 +61,32 @@ services:
   #   build: ./positionService/db
   #   volumes:
   #     - /data/db
+
   #   ports: 
   #     - 27019:27017
   #   # command: --quiet
   #   # healthcheck:
   #   #   test: exit 0
 
-  # positionservice:
-  #   image: positionservice
-  #   build: ./positionService
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 3002:3000
-  #   volumes: 
-  #     - "./positionService:/src/app"
-  #     - "./positionService/package.json:/src/package.json"
-  #   depends_on:
-  #     - positionmongodb
-  #   links: 
-  #     - positionmongodb
 
+
+  positionmongodb:
+    container_name: positionmongodb
+    build: ./positionService/db
+    ports: 
+      - 27017:27017
+
+  positionservice:
+    image: positionservice
+    build: ./positionService
+    ports:
+      - 80:80
+    environment:
+      WAIT_HOSTS: positionmongodb:27017
+
+        #     - "./positionService:/src/app"
+        #     - "./positionService/package.json:/src/package.json"
+      
   ############################################## thirdparty service ##############################################
 
   # thirdpartyservicemongodb:

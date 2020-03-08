@@ -1,5 +1,5 @@
 #!/bin/sh
 
-bash -c "/wait-for-it.sh 127.0.0.1:3306 -t 20 -- mongoimport -v --db database --collection usersubscriptionmodels --type json --file /userSubSeed.json --jsonArray" &
-exec mongod
+mongoimport -v --db database --collection usersubscriptionmodels --type json --file dataseed/userSubSeed.json --jsonArray
+
 
