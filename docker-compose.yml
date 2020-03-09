@@ -31,28 +31,23 @@ services:
 
   ############################################## subscription service ##############################################
 
-  # subscriptionmongodb:
-  #   container_name: subscriptionmongodb
-  #   build: ./subscriptionService/db
-  #   volumes:
-  #     - /data/db
-  #   ports: 
-  #     - 27018:27017
+  subscriptionmongodb:
+    container_name: subscriptionmongodb
+    build: ./subscriptionService/db
+    ports: 
+      - 27017:27017
 
-  # subscriptionservice:
-  #   image: subscriptionservice
-  #   build: ./subscriptionService
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 3001:3000
-  #   volumes: 
-  #     - "./subscriptionService:/src/app"
-  #     - "./subscriptionService/package.json:/src/package.json"
-  #   depends_on:
-  #     - subscriptionmongodb
-  #   links: 
-  #     - subscriptionmongodb
+  subscriptionservice:
+    image: subscriptionservice
+    build: ./subscriptionService
+    environment:
+      WAIT_HOSTS: subscriptionmongodb:27017
+      NODE_ENV: production
+    ports:
+      - 80:80
+
+
+
 
 ############################################## position service ##############################################
 
@@ -61,7 +56,6 @@ services:
   #   build: ./positionService/db
   #   volumes:
   #     - /data/db
-
   #   ports: 
   #     - 27019:27017
   #   # command: --quiet
@@ -70,22 +64,20 @@ services:
 
 
 
-  positionmongodb:
-    container_name: positionmongodb
-    build: ./positionService/db
-    ports: 
-      - 27017:27017
+  # positionmongodb:
+  #   container_name: positionmongodb
+  #   build: ./positionService/db
+  #   ports: 
+  #     - 27017:27017
 
-  positionservice:
-    image: positionservice
-    build: ./positionService
-    ports:
-      - 80:80
-    environment:
-      WAIT_HOSTS: positionmongodb:27017
+  # positionservice:
+  #   image: positionservice
+  #   build: ./positionService
+  #   ports:
+  #     - 80:80
+  #   environment:
+  #     - WAIT_HOSTS: positionmongodb:27017
 
-        #     - "./positionService:/src/app"
-        #     - "./positionService/package.json:/src/package.json"
       
   ############################################## thirdparty service ##############################################
 
