@@ -1,18 +1,29 @@
 const mongoDBHandler = require('../dbHandlers/mongodbHandler');
-
-//services
-const thirdpartyservice1 = require('./thirdPartyServices/thirdPartyService1'); 
-
+const api = require('../api/api')
 
 exports.getAllServices = async (req,res) => {
-    if(req.query.serviceList == null || req.query.serviceList === "[]"){
-        let query = await mongoDBHandler.getServices();
-    }
-    else{
-        let query = await mongoDBHandler.getServices(JSON.parse(req.query.serviceList));
-
-    }
+    console.log("getALLservices")
+    let query = await mongoDBHandler.getAllServices();
     res.send(query);
+}
+
+exports.getServices = async (req,res) => {
+    console.log("getservices")
+    console.log(req.body.serviceIDs)
+    if(req.body.serviceIDs){
+        const serviceIDs = req.body.serviceIDs;
+
+        let query = await mongoDBHandler.getServices(serviceIDs);
+
+        if(query){
+            res.status(200).send(query);
+        } else {
+            res.status(400).send("no results were found");
+        }
+    } else {
+        res.status(200).send("no serviceIDs provided");
+    }
+    
 }
 
 exports.addService = async (req, res) => {
@@ -24,7 +35,6 @@ exports.addService = async (req, res) => {
             res.status(400).send("Falied to save")
         }
     })
-    
 }
 exports.changeServiceStatus = async (req, res) =>{
     response = await mongoDBHandler.setServiceStatus(req.body)
@@ -33,46 +43,21 @@ exports.changeServiceStatus = async (req, res) =>{
 }
 
 
+
 exports.checkSubscriptions = async (req, res) => {
-    let userSubscriptions = req.body.subscription;
-    let position = req.body.position;
-  
-    const responseArray = await userSubscriptions.map( async subscription => {
-        if(subscription.id == 0){
-            //call service 0
-        }
-        if(subscription.id == 1){
-            //call service 1
-            return await thirdpartyservice1.handle(position, subscription.settings).then(response => {
-                return response;
-            });
-        }
-        if(subscription.id == 2){
-            //call service 2
-            return {
-                event: "det regnar",
-                fan: true
-            }
-        }
-        if(subscription.id == 3){
-            //call service 3
-        }
-        if(subscription.id == 4){
-            //call service 4
-        }
-        else{
-            return null;
-        }
+    const userSubscriptions = req.body.subscriptions;
+    const position = req.body.position
+    const extendedSubscriptions = await mongoDBHandler.getServiceUrls(userSubscriptions)
+    console.log("extendedSubscriptions", extendedSubscriptions)
+    const serviceResults = await api.callServices(extendedSubscriptions, position);
 
-    });
 
-    const response = await Promise.all(responseArray)
-    console.log("responseArr", response);
-    //loop and send in posisiton. 
-    res.send(response);
 
-    //return notificaion if hit. 
+    
+    res.send(serviceResults);
+
 }
+
 
 
 

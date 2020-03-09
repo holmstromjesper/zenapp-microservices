@@ -1,0 +1,101 @@
+
+###
+GET http://localhost/services HTTP/1.1
+
+###
+POST http://localhost/services HTTP/1.1
+Content-Type: application/json
+
+{
+    "serviceIDs" : [1,2]
+}
+
+
+###
+POST http://localhost/service HTTP/1.1
+Content-Type: application/json
+
+{
+	"serviceID": 620,
+    "serviceName": "this the newest service",
+    "serviceURL": "https://mockservice601",
+    "serviceType": "carwash",
+    "description": "The new service object 1",
+	"posistion": {
+		"lat": 58.391620,
+		"long": 15.549027
+	},
+	"active": 1,
+	"settings": ["queuetime","distance"],
+    "experiment": 1
+}
+
+###
+PUT http://localhost/service HTTP/1.1
+Content-Type: application/json
+
+{
+    "serviceID":620,
+    "active":1
+}
+###
+POST http://localhost/checksubscriptions HTTP/1.1
+Content-Type: application/json
+
+{
+    "position": {
+        "long":15.549027,
+        "lat": 58.391620
+        },
+    "subscriptions" : [
+        {"serviceID": 0,
+            "settings": {
+                "queuetime": 12,
+                "distance": 10
+            }
+        },
+        {"serviceID": 1,
+            "settings": {
+                "queuetime": 12,
+                "distance": 10
+            }
+        }
+    ]
+}
+###
+POST http://localhost/checksubscriptions HTTP/1.1
+Content-Type: application/json
+
+{
+    "position": {
+        "long":15.549027,
+        "lat": 58.391620
+        },
+    "subscriptions" : [
+        {"serviceID": 0,
+        "settings":{
+            "queuetime": 300,
+            "distance": 1000
+        }
+        }
+    ]
+}
+
+###
+POST http://localhost:3000/handle HTTP/1.1
+Content-Type: application/json
+
+{
+    "position": {
+        "long":15.549027,
+        "lat": 58.391620
+        },
+    "settings" : [
+        {"serviceID": 0,
+        "settings":{
+            "queuetime": 12,
+            "distance": 10
+        }
+        }
+    ]
+}

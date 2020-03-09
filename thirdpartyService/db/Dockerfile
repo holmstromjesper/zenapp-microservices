@@ -1,12 +1,9 @@
-FROM mongo:3.4.18-jessie
+FROM mongo:latest
 
-RUN apt-get update -y && apt-get install -y netcat && apt-get clean
-COPY serviceSeeds.json /serviceSeeds.json
-COPY ./init.sh /init.sh
-ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /init.sh /wait-for-it.sh
+ENV MONGO_INITDB_DATABASE database
+COPY  ./mongo_data /dataseed/
+COPY  ./init.sh /docker-entrypoint-initdb.d/init.sh
+
 VOLUME ["/data/db"]
-
-CMD /init.sh 
 
 EXPOSE 27017

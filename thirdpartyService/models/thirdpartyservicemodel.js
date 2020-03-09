@@ -10,6 +10,7 @@ var ThirdPartyServiceModelSchema = new Schema({
     serviceName: String,
     serviceType: String,
     description: String,
+    serviceURL: String,
     position: {
         _id: false,
         lat: Number,

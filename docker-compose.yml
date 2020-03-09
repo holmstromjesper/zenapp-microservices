@@ -31,20 +31,20 @@ services:
 
   ############################################## subscription service ##############################################
 
-  subscriptionmongodb:
-    container_name: subscriptionmongodb
-    build: ./subscriptionService/db
-    ports: 
-      - 27017:27017
+  # subscriptionmongodb:
+  #   container_name: subscriptionmongodb
+  #   build: ./subscriptionService/db
+  #   ports: 
+  #     - 27017:27017
 
-  subscriptionservice:
-    image: subscriptionservice
-    build: ./subscriptionService
-    environment:
-      WAIT_HOSTS: subscriptionmongodb:27017
-      NODE_ENV: production
-    ports:
-      - 80:80
+  # subscriptionservice:
+  #   image: subscriptionservice
+  #   build: ./subscriptionService
+  #   environment:
+  #     WAIT_HOSTS: subscriptionmongodb:27017
+  #     NODE_ENV: production
+  #   ports:
+  #     - 80:80
 
 
 
@@ -76,36 +76,40 @@ services:
   #   ports:
   #     - 80:80
   #   environment:
-  #     - WAIT_HOSTS: positionmongodb:27017
+  #     WAIT_HOSTS: positionmongodb:27017
 
       
   ############################################## thirdparty service ##############################################
 
-  # thirdpartyservicemongodb:
-  #   container_name: thirdpartyservicemongodb
-  #   build: ./thirdpartyService/db
-  #   volumes:
-  #     - /data/db
-  #   ports: 
-  #     - 27020:27017
-  #   # command: --quiet
-  #   # healthcheck:
-  #   #   test: exit 0
+  thirdpartyservicemongodb:
+    container_name: thirdpartyservicemongodb
+    build: ./thirdpartyService/db
+    ports: 
+      - 27020:27017
 
-  # thirdpartyservice:
-  #   image: thirdpartyservice
-  #   build: ./thirdpartyService
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 3003:3000
-  #   volumes: 
-  #     - "./thirdpartyService:/src/app"
-  #     - "./thirdpartyService/package.json:/src/package.json"
-  #   depends_on:
-  #     - thirdpartyservicemongodb
-  #   links: 
-  #     - thirdpartyservicemongodb
+
+  thirdpartyservice:
+    image: thirdpartyservice
+    build: ./thirdpartyService
+    environment:
+      WAIT_HOSTS: thirdpartyservicemongodb:27017
+    ports:
+      - 80:80
+    volumes: 
+      - "./thirdpartyService:/src/app"
+      - "./thirdpartyService/package.json:/src/package.json"
+      
+############################################# example carwash service ##############################################
+
+  carwashservice:
+    image: carwashservice
+    build: ./carwashService
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+
+
 
   ############################################## API COMPOSER SERVICE ##############################################
   # apicomposer:
@@ -127,14 +131,3 @@ services:
   #     - userservice
   #     - positionservice
 
-  ############################################## example carwash service ##############################################
-  # carwashservice:
-  #   image: carwashservice
-  #   build: ./carwashService
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 3005:3000
-  #   volumes: 
-  #     - "./carwashService:/src/app"
-  #     - "./carwashService/package.json:/src/package.json"

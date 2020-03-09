@@ -82,7 +82,7 @@ for(let i = USER_OBJECT_EXPERIMENT_1_LOWERBOUND; i<USER_OBJECT_EXPERIMENT_1_HIGH
 service = {
     "serviceID": 0,
     "serviceName": services[0] + 0,
-    "serviceUrl": "https://carwashservice:3000",
+    "serviceURL": "http://carwashservice:3000",
     "serviceType": services[0],
     "description": 'This is a ' + services[0],
     "position": {
@@ -90,8 +90,11 @@ service = {
         long:15.549027
     },
     "active": isActive,
-    "settings": ["queuetime", "distance"]
+    "settings": ["queuetime", "distance"],
+    "experiment": 1
 };
+
+serviceArray.push(service)
 
 for(let i = 1; i<200; i++){
     if(i>99){
