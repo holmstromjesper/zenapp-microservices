@@ -9,7 +9,7 @@ module.exports = (app) => {
 
   //manages one service
   app.route('/service')
-    // .get(thirdPartyServiceController.getService) //use this for experiment
+    .get(thirdPartyServiceController.getService) 
     .post(thirdPartyServiceController.addService) 
     .put(thirdPartyServiceController.changeServiceStatus);
 

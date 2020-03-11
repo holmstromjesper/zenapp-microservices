@@ -3,6 +3,9 @@
 GET http://localhost/services HTTP/1.1
 
 ###
+GET http://localhost/service?serviceID=1 HTTP/1.1
+
+###
 POST http://localhost/services HTTP/1.1
 Content-Type: application/json
 
@@ -39,7 +42,7 @@ Content-Type: application/json
     "active":1
 }
 ###
-POST http://localhost/checksubscriptions HTTP/1.1
+POST https://zenapp-thirdpartyservice.azurewebsites.net/checksubscriptions HTTP/1.1
 Content-Type: application/json
 
 {
@@ -49,15 +52,21 @@ Content-Type: application/json
         },
     "subscriptions" : [
         {"serviceID": 0,
-            "settings": {
-                "queuetime": 12,
-                "distance": 10
+            "settings":{
+                "queuetime": 300,
+                "distance": 1000
             }
         },
         {"serviceID": 1,
-            "settings": {
-                "queuetime": 12,
-                "distance": 10
+            "settings":{
+                "queuetime": 300,
+                "distance": 1000
+            }
+        },
+        {"serviceID": 2,
+            "settings":{
+                "queuetime": 300,
+                "distance": 1000
             }
         }
     ]
@@ -73,10 +82,22 @@ Content-Type: application/json
         },
     "subscriptions" : [
         {"serviceID": 0,
-        "settings":{
-            "queuetime": 300,
-            "distance": 1000
-        }
+            "settings":{
+                "queuetime": 300,
+                "distance": 1000
+            }
+        },
+        {"serviceID": 1,
+            "settings":{
+                "queuetime": 300,
+                "distance": 1000
+            }
+        },
+        {"serviceID": 2,
+            "settings":{
+                "queuetime": 300,
+                "distance": 1000
+            }
         }
     ]
 }

@@ -39,7 +39,26 @@ exports.getServices = async (serviceIDs) => {
     else{
         return "invalid input"
     }
-    
+}
+
+exports.getService = async (serviceID) => {
+    console.log("serviceIDs in mongodbhandler",serviceID)
+    if(!isNaN(serviceID)){
+        const query = await ThirdPartyServiceModel.find({serviceID: serviceID}, (err,res)=>{
+            if(!err){
+                console.log("res", res)
+            }
+            else {
+                console.log("gettings service:", err) 
+                throw err;
+            }
+        })
+        console.log("query",query);
+        return query
+    }
+    else{
+        return "invalid input"
+    }
 }
 
 exports.setServiceStatus = async ({serviceID, active}) => {
@@ -58,15 +77,19 @@ exports.setServiceStatus = async ({serviceID, active}) => {
 }
 
 exports.addNewService = async (newServiceObject) => {
-    var newService = new ThirdPartyServiceModel(newServiceObject);
-    console.log(newServiceObject)
-    const query = await ThirdPartyServiceModel.findOneAndUpdate({serviceID: newServiceObject.serviceID}, newServiceObject, {upsert:true, new:true}, (err, doc) => {
-        if(err){
-            console.log("error in creating service", err)
-        } else {
-            console.log("success in creating service:", doc)
-        }
-    })
+    query = await ThirdPartyServiceModel.findOneAndUpdate(
+        {serviceID: newServiceObject.serviceID}, 
+        newServiceObject, 
+        {upsert:true, new:true}, 
+        (err, res) => {
+            if(err){
+                console.log(err)
+            }else{
+                console.log(res)
+            }
+        }).catch(err =>{
+            console.log(err.message)
+        })
     return query
 };
 

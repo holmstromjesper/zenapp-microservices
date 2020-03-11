@@ -46,9 +46,6 @@ services:
   #   ports:
   #     - 80:80
 
-
-
-
 ############################################## position service ##############################################
 
   # positionmongodb:
@@ -62,13 +59,6 @@ services:
   #   # healthcheck:
   #   #   test: exit 0
 
-
-
-  # positionmongodb:
-  #   container_name: positionmongodb
-  #   build: ./positionService/db
-  #   ports: 
-  #     - 27017:27017
 
   # positionservice:
   #   image: positionservice
@@ -95,11 +85,8 @@ services:
       WAIT_HOSTS: thirdpartyservicemongodb:27017
     ports:
       - 80:80
-    volumes: 
-      - "./thirdpartyService:/src/app"
-      - "./thirdpartyService/package.json:/src/package.json"
       
-############################################# example carwash service ##############################################
+# ############################################ example carwash service ##############################################
 
   carwashservice:
     image: carwashservice

@@ -7,8 +7,8 @@ exports.handle = async (position, settings) => {
     let userlong = position.long;
     let userlat = position.lat;
     console.log(settings)
-    let queuetimeSetting = settings.queuetime;
-    let distance = settings.distance;
+    let queuetimeSetting = settings.settings.queuetime;
+    let distance = settings.settings.distance;
     console.log("queuetime in carwash", queuetimeSetting)
     console.log("distancesetting in carwash", distance)
     console.log("userlat in carwash", userlat)
@@ -18,6 +18,7 @@ exports.handle = async (position, settings) => {
 
         if(Number(queuetime) < queuetimeSetting){
             return {
+                serviceID: settings.serviceID,
                 queueTime: queuetime,
                 location: "carwash1",
                 message: "Time for carwash" ,
@@ -25,18 +26,20 @@ exports.handle = async (position, settings) => {
             } 
         } else {
             return {
+                serviceID: settings.serviceID,
                 queueTime: queuetime,
                 location: "Biltvätt1",
-                message: "not time for carwash" ,
+                message: "Queuetime to long" ,
                 alert: false
             }   
         }
     }
     else{
         return {
+            serviceID: settings.serviceID,
             queueTime: null,
             location: null,
-            message: "" ,
+            message: "outside distance of interest" ,
             alert: false
         };
     }

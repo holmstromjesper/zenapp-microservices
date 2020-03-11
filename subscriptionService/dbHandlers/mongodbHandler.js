@@ -28,18 +28,25 @@ exports.getUserSubscriptions = async (userID) => {
 }
 
 exports.subscribe = async (userID, serviceObject) => {   
+    let response = null;
     var query =  await UserSubscriptionModel.findOneAndUpdate(
         {'userID':userID, 'subscriptions.serviceID' : {$ne : serviceObject.serviceID}}, 
         {$push: {'subscriptions': serviceObject}},
-        {new: true}
-        )
-    .catch(err => {
-        console.log("error recieved")    
-        console.log(err.message)
-        return false
-    });
+        {new: true}).exec((err,res) => {
+            if(err){
+                console.log("ERROR", err)
+            }else{
+                console.log("result",res)
+                response = res
+            }
+        })
+            
     console.log(`[USERSUBSRIBING TO SERVICE QUERY] userID: ${userID}, serviceID: ${serviceObject.serviceID}
     query: ${query}`);
-
-    return query
+    if(response){
+        return response
+    }
+    else{
+        return null
+    }
 }

@@ -13,7 +13,9 @@ db.on('error', console.error.bind(console, 'MongoDB connection errror:'))
 
 exports.updatePosition = async (positionObject, userID) => {
     positionObject['timestamp']= Date.now();
-    var query = await UserPositionModel.findOneAndUpdate(
+    console.log("positionObject", positionObject)
+    console.log("userID", userID)
+    var user = await UserPositionModel.findOneAndUpdate(
         {'userID': userID},  
         { 'position' : positionObject }, 
         {new: true},
@@ -30,15 +32,11 @@ exports.updatePosition = async (positionObject, userID) => {
     });
     console.log(`[UPDATE USER POSITION SERVICE] userID: ${userID}, position: ${positionObject}
     user: ${user}`);
-    return query; 
+    return user; 
 }
 
 exports.getPosition = async (userID) => {
-    console.log("running getPos 1");
-    console.log('connecntioN?',mongoose.connection.readyState);
 
-    var query = await UserPositionModel.find({'userID': 1});
-    console.log('query:', query);
     var userPosition = await UserPositionModel.findOne({'userID': userID}, (err,res) => {
         if(err){
             console.log("error in finding user position")
@@ -49,11 +47,32 @@ exports.getPosition = async (userID) => {
     }).catch(err=>{
         console.log(err.message)
     });
-    console.log("running getPos 2");
 
     console.log(`[GET USERS SUBSCRIPTIONS SERVICE] userID: ${userID}
     position: ${userPosition}`);
-    console.log("running getPos 3");
-
+ 
     return userPosition;
+}
+exports.getPositions = async (userIDs) => {
+
+    console.log("userIDS: in get positions", userIDs)
+    if(!userIDs.some(isNaN)){
+        var query = await UserPositionModel.find(
+            {'userID': {$in : userIDs}}, 
+                (err, res) => {
+                    if(err){
+                        console.log("error in finding user position")
+                    }
+                    if(!res){
+                        console.log("no matching user where found for updating the position")
+                    }
+        }).catch(err=>{
+            console.log(err.message)
+        });
+        console.log(`[GET USERS SUBSCRIPTIONS SERVICE] userIDs: ${userIDs}
+        position: ${query}`);
+        return query;
+     
+    }
+    else return null;
 }

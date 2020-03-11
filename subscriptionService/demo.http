@@ -8,7 +8,7 @@ Content-Type: application/json
 {
     "userID" : 1,
     "serviceobject": {
-        "serviceID": 6,
+        "serviceID": 12,
         "settings": {
         "queuetime": 25,
         "distance": 5

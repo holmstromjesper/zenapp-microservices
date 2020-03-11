@@ -6,9 +6,10 @@ exports.checkService = async (req,res) => {
 
     const position = req.body.position
 
-    const settings = req.body.settings.settings
+    const settings = req.body.settings[0]
+    console.log(settings)
     let query = await carwash.handle(position, settings)
-    res.send(JSON.stringify(query));
+    res.status(200).send(JSON.stringify(query));
 }
 
 

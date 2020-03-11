@@ -2,14 +2,12 @@ const mongoDBHandler = require('../dbHandlers/mongodbHandler');
 const api = require('../api/api')
 
 exports.getAllServices = async (req,res) => {
-    console.log("getALLservices")
     let query = await mongoDBHandler.getAllServices();
     res.send(query);
 }
 
 exports.getServices = async (req,res) => {
-    console.log("getservices")
-    console.log(req.body.serviceIDs)
+
     if(req.body.serviceIDs){
         const serviceIDs = req.body.serviceIDs;
 
@@ -39,7 +37,29 @@ exports.addService = async (req, res) => {
 exports.changeServiceStatus = async (req, res) =>{
     response = await mongoDBHandler.setServiceStatus(req.body)
     console.log(response)
-    res.send("changed status of service");
+    if(response){
+        res.status(200).send(`succesfully changed status to: ${req.body.active},of service ${req.body.serviceID}` )
+    }
+    else{
+        res.status(400).send("Falied to save")
+    }
+}
+
+exports.getService = async(req, res) =>{
+    console.log(req.query.serviceID)
+    const serviceID = req.query.serviceID;
+    if(serviceID){
+        let query = await mongoDBHandler.getService(serviceID);
+
+        if(query){
+            res.status(200).send(query);
+        } else {
+            res.status(400).send("no results were found");
+        }
+    } else {
+        res.status(200).send("no serviceIDs provided");
+    }
+    
 }
 
 
@@ -50,6 +70,7 @@ exports.checkSubscriptions = async (req, res) => {
     const extendedSubscriptions = await mongoDBHandler.getServiceUrls(userSubscriptions)
     console.log("extendedSubscriptions", extendedSubscriptions)
     const serviceResults = await api.callServices(extendedSubscriptions, position);
+    console.log("results back in check", serviceResults)
 
 
 

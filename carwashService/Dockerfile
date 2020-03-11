@@ -13,3 +13,4 @@ RUN chmod +x /wait
 
 # start app
 CMD /wait && npm start
+EXPOSE 3000
