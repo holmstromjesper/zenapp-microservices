@@ -75,4 +75,18 @@ exports.getPositions = async (userIDs) => {
      
     }
     else return null;
-}
+};
+
+exports.getRange = async (limit) => {
+    const query = await UserModel.find({}, (err,res)=>{
+        if(!err){
+            console.log("result from query: ", res)
+        }
+        else {
+            console.log("error in finding users:", err.message) 
+            throw err;
+        }
+    }).limit(limit);
+    console.log("query",query);
+    return query;
+};

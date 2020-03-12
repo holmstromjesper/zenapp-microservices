@@ -38,3 +38,15 @@ exports.getPositions = async (req,res) => {
         res.status(400).send("could not fetch users positions");
     }
 };
+
+//this is the experiment3 function which returns a batch of users to be joined in api composer
+exports.getRangeOfUsers = async (req,res) => {
+    let userLimit = parseInt(req.query.limit);
+    let response = await mongoDBHandler.getRange(userLimit);
+    if(response){
+        res.status(200).send(JSON.stringify(response));
+    }
+    else{
+        res.status(400).send("could not fetch batch");
+    }
+};

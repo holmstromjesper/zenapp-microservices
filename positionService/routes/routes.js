@@ -7,5 +7,6 @@ module.exports = (app) => {
     .post(positionController.updatePosition)
 
     app.route('/positions')
-    .post(positionController.getPositions)
+    .get(positionController.getRangeOfUsersPositions)
+    .post(positionController.getPositions);
   };

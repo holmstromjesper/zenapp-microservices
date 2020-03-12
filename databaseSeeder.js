@@ -1,17 +1,11 @@
 var fs = require('fs');
 
-const USER_OBJECT_EXPERIMENT_1_LOWERBOUND = 0
-const USER_OBJECT_EXPERIMENT_1_HIGHERBOUND = 10000  
-const USER_OBJECT_EXPERIMENT_2_LOWERBOUND = 10000  
-const USER_OBJECT_EXPERIMENT_2_HIGHERBOUND = 20000
-const USER_OBJECT_EXPERIMENT_3_LOWERBOUND = 20000  
-const USER_OBJECT_EXPERIMENT_4_HIGHERBOUND = 30000
-const SERVICE_EXPERIMENT_1_LOWERBOUND = 1
-const SERVICE_EXPERIMENT_1_HIGHERBOUND = 200
-const SERVICE_EXPERIMENT_2_LOWERBOUND = 200
-const SERVICE_EXPERIMENT_2_HIGHERBOUND = 400
-const SERVICE_EXPERIMENT_3_LOWERBOUND = 400
-const SERVICE_EXPERIMENT_3_HIGHERBOUND = 600
+const USER_OBJECT_LOWERBOUND = 0
+const USER_OBJECT_HIGHERBOUND = 20000  
+const SERVICE_LOWERBOUND = 1
+const SERVICE_UPPERBOUND = 600
+
+
 
 
 let usersArray = [];
@@ -24,9 +18,8 @@ let isActive = 1;
 
 //EXPERIMENT 1
 
-//USER OBJECT
 
-for(let i = USER_OBJECT_EXPERIMENT_1_LOWERBOUND; i<USER_OBJECT_EXPERIMENT_1_HIGHERBOUND; i++){
+for(let i = USER_OBJECT_LOWERBOUND; i<USER_OBJECT_HIGHERBOUND; i++){
     userObject = {
         "userID": i,
         "name": {
@@ -35,12 +28,10 @@ for(let i = USER_OBJECT_EXPERIMENT_1_LOWERBOUND; i<USER_OBJECT_EXPERIMENT_1_HIGH
         },
         "userLevel": i%2,
         "email": "user.lastnameson" + i+ "@email.com",
-        "password": "123"+i,
-        "experiment": 1,
+        "password": "123"+i
     }
     usersArray.push(userObject);
 
-    
     let randomStatus = Math.floor(Math.random() * (4))
     subscriptionObject = {
         "userID": i,
@@ -63,8 +54,7 @@ for(let i = USER_OBJECT_EXPERIMENT_1_LOWERBOUND; i<USER_OBJECT_EXPERIMENT_1_HIGH
                   "distance": ((i%7)+3)
                 }  
               },
-        ],
-        "experiment": 1
+        ]
     }
     subscriptionsArray.push(subscriptionObject);
 
@@ -73,8 +63,7 @@ for(let i = USER_OBJECT_EXPERIMENT_1_LOWERBOUND; i<USER_OBJECT_EXPERIMENT_1_HIGH
         "position": {
           "lat": 58.391620,
           "long": 15.549027 + i % 3
-      },
-      "experiment": 1
+      }
     }
     positionsArray.push(userPosition)
 }
@@ -91,13 +80,12 @@ service = {
     },
     "active": isActive,
     "settings": ["queuetime", "distance"],
-    "experiment": 1
 };
 
 serviceArray.push(service)
 
-for(let i = 1; i<200; i++){
-    if(i>99){
+for(let i = SERVICE_LOWERBOUND; i<SERVICE_UPPERBOUND; i++){
+    if(i>99){s
         isActive=0
     }else{
         isActive=1
@@ -115,13 +103,11 @@ for(let i = 1; i<200; i++){
         },
         "active": isActive,
         "settings": ["queuetime", "distance"],
-        "experiment": 1
 
     };
     serviceArray.push(service);
 };
 
-//EXPERIMENT 2
 
 
 //WRITE TO ALL FILES

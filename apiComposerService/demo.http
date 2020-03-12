@@ -2,4 +2,6 @@
 GET http://localhost:3004/user?userID=1 HTTP/1.1
 Content-Type: application/json
 
-
+###
+GET http://localhost:3004/users?amount=1&experiment=3 HTTP/1.1
+Content-Type: application/json
