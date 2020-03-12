@@ -26,7 +26,7 @@ let isActive = 1;
 
 //USER OBJECT
 
-for(let i = USER_OBJECT_EXPERIMENT_1_LOWERBOUND; i<50000; i++){
+for(let i = USER_OBJECT_EXPERIMENT_1_LOWERBOUND; i<USER_OBJECT_EXPERIMENT_1_HIGHERBOUND; i++){
     userObject = {
         "userID": i,
         "name": {

@@ -10,32 +10,34 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection errror:'))
 
 
-exports.createUser = (userObject) => {
-    var newUser = new UserModel(userObject);
+exports.getUser = async (userID) => {
 
-    newUser.save(err => {
-        if(err){
-            console.log(err)
-        } else {
-            console.log('User saved successfully');
+    const query = await UserModel.find({userID: userID}, (err,res)=>{
+        if(!err){
+            console.log("res", res)
         }
-    });
+        else {
+            console.log("error in getting user:", err.message) 
+            throw err;
+        }
+    })
+    console.log("query",query); 
+    return query
+
 };
-const getAllUsers = async ()  =>{
-    return query = await UserModel.find({}).catch((err) =>{
-        console.log('error:', err.message)
-        return false;
-    });
-}
-exports.findUser = async (ids) => {
-    
-    if(ids == null){
-        return getAllUsers();
-    } 
-    return query = await UserModel.find({'userID': {$in : ids}}).catch((err) =>{
-        console.log('error:', err.message)
-        return false;
-    });
+
+exports.getUsers = async (userIDs) => {
+    const query = await UserModel.find({userID: {$in :userIDs}}, (err,res)=>{
+            if(!err){
+                console.log("result from query: ", res)
+            }
+            else {
+                console.log("error in finding users:", err.message) 
+                throw err;
+            }
+        })
+        console.log("query",query);
+        return query
 }
 
 

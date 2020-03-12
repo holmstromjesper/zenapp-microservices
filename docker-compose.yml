@@ -3,118 +3,99 @@ services:
 
   ############################################## user service ##############################################
 
-  # usermongodb:
-  #   container_name: usermongodb
-  #   build: ./userService/db
-  #   volumes:
-  #     - /data/db
-  #   ports: 
-  #     - 27017:27017
-  #   # command: --quiet
-  #   # healthcheck:
-  #   #   test: exit 0
+  usermongodb:
+    container_name: usermongodb
+    build: ./userService/db
+    ports: 
+      - 27017:27017
 
-  # userservice:
-  #   image: userservice
-  #   build: ./userService
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 3000:3000
-  #   volumes: 
-  #     - "./userService:/src/app"
-  #     - "./userService/package.json:/src/package.json"
-  #   depends_on:
-  #     - usermongodb
-  #   links: 
-  #     - usermongodb
+
+  userservice:
+    image: userservice
+    build: ./userService
+    environment:
+      WAIT_HOSTS: usermongodb:27017
+      NODE_ENV: production
+    ports:
+      - 3001:80
 
   ############################################## subscription service ##############################################
 
-  # subscriptionmongodb:
-  #   container_name: subscriptionmongodb
-  #   build: ./subscriptionService/db
-  #   ports: 
-  #     - 27017:27017
+  subscriptionmongodb:
+    container_name: subscriptionmongodb
+    build: ./subscriptionService/db
+    ports: 
+      - 27018:27017
 
-  # subscriptionservice:
-  #   image: subscriptionservice
-  #   build: ./subscriptionService
-  #   environment:
-  #     WAIT_HOSTS: subscriptionmongodb:27017
-  #     NODE_ENV: production
-  #   ports:
-  #     - 80:80
+  subscriptionservice:
+    image: subscriptionservice
+    build: ./subscriptionService
+    environment:
+      WAIT_HOSTS: subscriptionmongodb:27017
+      NODE_ENV: production
+    ports:
+      - 3002:80
 
 ############################################## position service ##############################################
 
-  # positionmongodb:
-  #   container_name: positionmongodb
-  #   build: ./positionService/db
-  #   volumes:
-  #     - /data/db
-  #   ports: 
-  #     - 27019:27017
-  #   # command: --quiet
-  #   # healthcheck:
-  #   #   test: exit 0
+  positionmongodb:
+    container_name: positionmongodb
+    build: ./positionService/db
+    volumes:
+      - /data/db
+    ports: 
+      - 27019:27017
+    # command: --quiet
+    # healthcheck:
+    #   test: exit 0
 
 
-  # positionservice:
-  #   image: positionservice
-  #   build: ./positionService
-  #   ports:
-  #     - 80:80
-  #   environment:
-  #     WAIT_HOSTS: positionmongodb:27017
+  positionservice:
+    image: positionservice
+    build: ./positionService
+    ports:
+      - 3003:80
+    environment:
+      WAIT_HOSTS: positionmongodb:27017
 
       
   ############################################## thirdparty service ##############################################
 
-  thirdpartyservicemongodb:
-    container_name: thirdpartyservicemongodb
-    build: ./thirdpartyService/db
-    ports: 
-      - 27020:27017
+  # thirdpartyservicemongodb:
+  #   container_name: thirdpartyservicemongodb
+  #   build: ./thirdpartyService/db
+  #   ports: 
+  #     - 27020:27017
 
 
-  thirdpartyservice:
-    image: thirdpartyservice
-    build: ./thirdpartyService
-    environment:
-      WAIT_HOSTS: thirdpartyservicemongodb:27017
-    ports:
-      - 80:80
+  # thirdpartyservice:
+  #   image: thirdpartyservice
+  #   build: ./thirdpartyService
+  #   environment:
+  #     WAIT_HOSTS: thirdpartyservicemongodb:27017
+  #   ports:
+  #     - 80:80
       
 # ############################################ example carwash service ##############################################
 
-  carwashservice:
-    image: carwashservice
-    build: ./carwashService
-    environment:
-      NODE_ENV: production
-    ports:
-      - 3000:3000
-
-
-
-  ############################################## API COMPOSER SERVICE ##############################################
-  # apicomposer:
-  #   image: apicomposerservice
-  #   build: ./apiComposerService
+  # carwashservice:
+  #   image: carwashservice
+  #   build: ./carwashService
   #   environment:
   #     NODE_ENV: production
   #   ports:
-  #     - 3004:3000
-  #   volumes: 
-  #     - "./apiComposerService:/src/app"
-  #     - "./apiComposerService/package.json:/src/package.json"
-  #   depends_on:
-  #     - thirdpartyservice
-  #     - userservice
-  #     - positionservice
-  #   links: 
-  #     - thirdpartyservice
-  #     - userservice
-  #     - positionservice
+  #     - 3000:3000
+
+
+
+  ############################################# API COMPOSER SERVICE ##############################################
+  apicomposer:
+    image: apicomposerservice
+    build: ./apiComposerService
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3004:80
+
+
 

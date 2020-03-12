@@ -14,7 +14,7 @@ db.on('error', console.error.bind(console, 'USERSUBSCRIPTIONS MongoDB connection
 exports.getUserSubscriptions = async (userID) => {
     console.log(userID)
     let response;
-    var query = await UserSubscriptionModel.findOne({'userID': userID}, (err,res)=>{
+    var query = await UserSubscriptionModel.find({'userID': userID}, (err,res)=>{
         if(err){
             console.log("error in finding users subscriptions")
         }

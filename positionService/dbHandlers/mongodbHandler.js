@@ -37,7 +37,7 @@ exports.updatePosition = async (positionObject, userID) => {
 
 exports.getPosition = async (userID) => {
 
-    var userPosition = await UserPositionModel.findOne({'userID': userID}, (err,res) => {
+    var userPosition = await UserPositionModel.find({'userID': userID}, (err,res) => {
         if(err){
             console.log("error in finding user position")
         }

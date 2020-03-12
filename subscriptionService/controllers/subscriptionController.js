@@ -4,7 +4,7 @@ exports.getUserSubscriptions = async (req, res) => {
     console.log(req.query.userID)
     const subscriptions = await mongoDBHandler.getUserSubscriptions(req.query.userID);
     if(subscriptions){
-        res.status(200).send(subscriptions);
+        res.status(200).send(JSON.stringify(subscriptions));
     }else{
         res.status(400).send("could not find user subscriptions");
     }
