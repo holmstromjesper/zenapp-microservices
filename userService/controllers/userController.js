@@ -2,7 +2,6 @@ const mongoDBHandler = require('../dbHandlers/mongodbHandler');
 
 exports.getUsers = async (req, res) => {
     const userIDs = req.body.userIDs;
-    cons
     if(!userIDs.some(isNaN)){
         let users = await mongoDBHandler.findUser(userIDs);
         console.log(users)

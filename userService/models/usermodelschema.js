@@ -28,8 +28,7 @@ var UserModelSchema = new Schema({
     password:  {
         type: String,
         required: true
-    },
-    experiment: Number
+    }
 });
 var UserModel = mongoose.model('UserModel', UserModelSchema);
 
