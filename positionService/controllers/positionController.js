@@ -40,7 +40,7 @@ exports.getPositions = async (req,res) => {
 };
 
 //this is the experiment3 function which returns a batch of users to be joined in api composer
-exports.getRangeOfUsers = async (req,res) => {
+exports.getRangeOfUsersPositions = async (req,res) => {
     let userLimit = parseInt(req.query.limit);
     let response = await mongoDBHandler.getRange(userLimit);
     if(response){

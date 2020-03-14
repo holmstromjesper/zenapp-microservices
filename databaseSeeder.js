@@ -85,7 +85,7 @@ service = {
 serviceArray.push(service)
 
 for(let i = SERVICE_LOWERBOUND; i<SERVICE_UPPERBOUND; i++){
-    if(i>99){s
+    if(i>99){
         isActive=0
     }else{
         isActive=1

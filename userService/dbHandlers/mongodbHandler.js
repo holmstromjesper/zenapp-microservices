@@ -41,16 +41,15 @@ exports.getUsers = async (userIDs) => {
 }
 
 exports.getRange = async (limit) => {
-    const query = await UserModel.find({}, (err,res)=>{
+    const query = await UserModel.find({userID: {$lt: limit}}, (err,res)=>{
         if(!err){
-            console.log("result from query: ", res)
+            console.log("result length: ", res.length)
         }
         else {
             console.log("error in finding users:", err.message) 
             throw err;
         }
     }).limit(limit);
-    console.log("query",query);
     return query;
 };
 

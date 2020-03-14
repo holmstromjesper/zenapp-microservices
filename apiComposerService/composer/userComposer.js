@@ -3,10 +3,10 @@ const joiner = require('../utils/joiner')
 
 const USERSERVICE_URL="http://userservice:80/user"
 const POSITIONSERVICE_URL="http://positionservice:80/position"
-const SUBSCRIPTIONSSERVICE_URL="http://subscriptionservice:80/subscriptions"
-const USERSERVICE_EXPERIMENT3_URL = "http://userservice:80/experiment3"
-const POSITION_EXPERIMENT3_URL = "http://positionservice:80/experiment3"
-const SUBSCRIPTIONSERVICE_EXPERIMENT3_URL = "http://subscriptionservice:80/experiment3"
+const SUBSCRIPTIONSSERVICE_URL="http://subscriptionservice:80/subscription"
+const USERSERVICE_EXPERIMENT3_URL = "http://userservice:80/users"
+const POSITION_EXPERIMENT3_URL = "http://positionservice:80/positions"
+const SUBSCRIPTIONSERVICE_EXPERIMENT3_URL = "http://subscriptionservice:80/subscriptions"
 
 
 
@@ -25,8 +25,7 @@ exports.getUserQuery = async (userID) => {
     const positionObject =  api.get(POSITIONSERVICE_URL, options)
     const subscriptionObject =  api.get(SUBSCRIPTIONSSERVICE_URL, options)
     const responses = await Promise.all([userObject,positionObject,subscriptionObject])
-    // const responses = await Promise.all([userObject, positionObject])
-    console.log("responses back in usercomposer",responses)
+    console.log("responses back in usercomposer",responses.length)
 
     if(!responses.includes(null) && responses.length == 3){
         console.log("SÄTT IHOP")
@@ -38,19 +37,29 @@ exports.getUserQuery = async (userID) => {
     }
 }
 
-exports.getUsersExperiment3Query = async (amount, experiment) => {
+exports.getUsersExperiment3Query = async (limit) => {
     const options = {
         headers: {
           Accept: 'application/json',
           'Content-type': 'application/json',
 
         },
-        qs: { 'userID': userID.toString() },
+        qs: { 'limit': limit.toString() },
         json: true,
       };
     const userObject =  api.get(USERSERVICE_EXPERIMENT3_URL, options)
     const positionObject =  api.get(POSITION_EXPERIMENT3_URL, options)
     const subscriptionObject =  api.get(SUBSCRIPTIONSERVICE_EXPERIMENT3_URL, options)
     const responses = await Promise.all([userObject,positionObject,subscriptionObject])
+    
+    if(!responses.includes(null) && responses.length == 3){
+      console.log("SÄTT IHOP")
+      const merged = await joiner.sortmergeJoin(responses)
+      return merged;
+  } else {
+      console.log("SÄTT INTE I IHOP")
+      return null;
+  }
+
 
 }

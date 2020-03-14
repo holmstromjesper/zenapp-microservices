@@ -52,15 +52,14 @@ exports.subscribe = async (userID, serviceObject) => {
 };
 
 exports.getRange = async (limit) => {
-    const query = await UserSubscriptionModel.find({}, (err,res)=>{
+    const query = await UserSubscriptionModel.find({userID: {$lt: limit}}, (err,res)=>{
         if(!err){
-            console.log("result from query: ", res)
+            console.log("results length: ", res.length)
         }
         else {
             console.log("error in finding users:", err.message) 
             throw err;
         }
     }).limit(limit);
-    console.log("query",query);
     return query;
 };
