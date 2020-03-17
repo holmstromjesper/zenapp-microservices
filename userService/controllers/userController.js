@@ -4,7 +4,6 @@ exports.getUsers = async (req, res) => {
     const userIDs = req.body.userIDs;
     if(!userIDs.some(isNaN)){
         let users = await mongoDBHandler.findUser(userIDs);
-        console.log(users)
         if(users){
             res.status(200).send(JSON.stringify(users));
         }
@@ -17,8 +16,6 @@ exports.getUsers = async (req, res) => {
     }
 }
 exports.getUser = async (req,res) => {
-    console.log(req.query)
-    console.log(req.query.userID)
     const userID = req.query.userID
     if(!isNaN(userID)){
         let response = await mongoDBHandler.getUser(userID);

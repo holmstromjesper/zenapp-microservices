@@ -13,79 +13,60 @@ db.on('error', console.error.bind(console, 'MongoDB connection errror:'))
 
 exports.updatePosition = async (positionObject, userID) => {
     positionObject['timestamp']= Date.now();
-    console.log("positionObject", positionObject)
-    console.log("userID", userID)
-    var user = await UserPositionModel.findOneAndUpdate(
+    var query = await UserPositionModel.findOneAndUpdate(
         {'userID': userID},  
         { 'position' : positionObject }, 
         {new: true},
-        (err,res) => {
+        (err) => {
             if(err){
-                console.log("error in updating user position")
-            }
-            if(!res){
-                console.log("no user were found")
+                console.log("error in updating", err.message)
             }
         })
-    .catch((err)=>{
-        console.log(err.message)
-    });
-    console.log(`[UPDATE USER POSITION SERVICE] userID: ${userID}, position: ${positionObject}
-    user: ${user}`);
-    return user; 
+    if(query){
+        return query; 
+    } else {
+        return null;
+    }
 }
 
 exports.getPosition = async (userID) => {
 
-    var userPosition = await UserPositionModel.find({'userID': userID}, (err,res) => {
+    var query = await UserPositionModel.find({'userID': userID}, (err,res) => {
         if(err){
-            console.log("error in finding user position")
+            console.log("error in finding user position", err.message)
         }
-        if(!res){
-            console.log("no matching user where found for updating the position")
-        }
-    }).catch(err=>{
-        console.log(err.message)
-    });
-
-    console.log(`[GET USERS SUBSCRIPTIONS SERVICE] userID: ${userID}
-    position: ${userPosition}`);
- 
-    return userPosition;
+    })
+    if(query){
+        return query; 
+    } else {
+        return null;
+    }
 }
 exports.getPositions = async (userIDs) => {
-
-    console.log("userIDS: in get positions", userIDs)
-    if(!userIDs.some(isNaN)){
-        var query = await UserPositionModel.find(
-            {'userID': {$in : userIDs}}, 
-                (err, res) => {
-                    if(err){
-                        console.log("error in finding user position")
-                    }
-                    if(!res){
-                        console.log("no matching user where found for updating the position")
-                    }
-        }).catch(err=>{
-            console.log(err.message)
-        });
-        console.log(`[GET USERS SUBSCRIPTIONS SERVICE] userIDs: ${userIDs}
-        position: ${query}`);
-        return query;
-     
+    var query = await UserPositionModel.find(
+        {'userID': {$in : userIDs}}, 
+        (err) => {
+            if(err){
+                console.log("error in finding user position", err.message)
+            }
+    })
+    if(query){
+        return query; 
+    } else {
+        return null;
     }
-    else return null;
 };
 
 exports.getRange = async (limit) => {
-    const query = await UserPositionModel.find({userID: {$lt: limit}}, (err,res)=>{
-        if(!err){
-            console.log("results length: ", res.length)
-        }
-        else {
-            console.log("error in finding users:", err.message) 
-            throw err;
-        }
+    const query = await UserPositionModel.find({userID: {$lt: limit}},
+        (err)=>{
+            if(err){
+                console.log("results length: ", err.message)
+            }
     }).limit(limit);
-    return query;
+    if(query){
+        return query; 
+    } else {
+        return null;
+    }
 };

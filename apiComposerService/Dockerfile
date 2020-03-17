@@ -6,9 +6,9 @@ WORKDIR /src
 
 # install app dependencies
 ADD package.json /src/package.json
-ADD . /src/app
+ADD . /app
 RUN npm install
 
 # start app
 CMD npm start
-EXPOSE 3000
+EXPOSE 80

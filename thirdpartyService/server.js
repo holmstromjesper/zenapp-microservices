@@ -12,4 +12,4 @@ routes(app);
 
 app.listen(port);
 
-console.log("thirdpartyservice runasdning");
+console.log("thirdpartyservice running");

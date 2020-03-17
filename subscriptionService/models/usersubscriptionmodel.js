@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
 var UserSubscriptionModelSchema = new Schema({
     userID: {
         type: Number,

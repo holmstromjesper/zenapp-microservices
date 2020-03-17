@@ -13,44 +13,41 @@ db.on('error', console.error.bind(console, 'MongoDB connection errror:'))
 exports.getUser = async (userID) => {
 
     const query = await UserModel.find({userID: userID}, (err,res)=>{
-        if(!err){
-            console.log("res", res)
-        }
-        else {
+        if(err){
             console.log("error in getting user:", err.message) 
-            throw err;
         }
     })
-    console.log("query",query); 
-    return query
-
+    if(query){
+        return query
+    } else {
+        return null
+    }
 };
 
 exports.getUsers = async (userIDs) => {
     const query = await UserModel.find({userID: {$in :userIDs}}, (err,res)=>{
-            if(!err){
-                console.log("result from query: ", res)
-            }
-            else {
-                console.log("error in finding users:", err.message) 
-                throw err;
+            if(err){
+                console.log("result from query: ", err.message)
             }
         })
-        console.log("query",query);
-        return query
+        if(query){
+            return query
+        } else {
+            return null
+        }
 }
 
 exports.getRange = async (limit) => {
     const query = await UserModel.find({userID: {$lt: limit}}, (err,res)=>{
-        if(!err){
-            console.log("result length: ", res.length)
-        }
-        else {
-            console.log("error in finding users:", err.message) 
-            throw err;
+        if(err){
+            console.log("result length: ", err.message)
         }
     }).limit(limit);
-    return query;
+    if(query){
+        return query
+    } else {
+        return null
+    }
 };
 
 

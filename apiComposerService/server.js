@@ -17,4 +17,4 @@ routes(app);
 app.listen(port);
 
 
-console.log("DONE");
+console.log("api composer ready");

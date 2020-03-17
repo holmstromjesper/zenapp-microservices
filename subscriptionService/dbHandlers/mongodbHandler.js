@@ -12,44 +12,60 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'USERSUBSCRIPTIONS MongoDB connection error:'))
 
 exports.getUserSubscriptions = async (userID) => {
-    console.log(userID)
-    let response;
+    console.log(typeof userID)
     var query = await UserSubscriptionModel.find({'userID': userID}, (err,res)=>{
         if(err){
             console.log("error in finding users subscriptions")
         }
-        if(!res){
-            console.log("no match was found user subscriptions or matching user where found")
-        }
     });
-    console.log(`[GET USERS SUBSCRIPTIONS SERVICE] userID: ${userID}
-    query: ${query}`);
-    return query;
+    if(query){
+        return query
+    } else {
+        return null
+    }
+}
+exports.getUsersSubscriptions = async (userIDs) => {
+    var query = await UserSubscriptionModel.find(
+        {'userID': {$in : userIDs}},'userID subscriptions' , (err) => {
+            if(err){
+                console.log("error in finding user position")
+            }
+    })
+    if(query){
+        return query
+    } else {
+        return null
+    }
 }
 
 exports.subscribe = async (userID, serviceObject) => {   
-    let response = null;
+
     var query =  await UserSubscriptionModel.findOneAndUpdate(
         {'userID':userID, 'subscriptions.serviceID' : {$ne : serviceObject.serviceID}}, 
         {$push: {'subscriptions': serviceObject}},
-        {new: true}).exec((err,res) => {
-            if(err){
-                console.log("ERROR", err)
-            }else{
-                console.log("result",res)
-                response = res
-            }
-        })
-            
-    console.log(`[USERSUBSRIBING TO SERVICE QUERY] userID: ${userID}, serviceID: ${serviceObject.serviceID}
-    query: ${query}`);
-    if(response){
-        return response
-    }
-    else{
+        {new: true})
+
+    if(query){
+        return query
+    } else {
         return null
     }
 };
+
+exports.unsubscribe = async (userID, serviceID) => {
+    const query = await UserSubscriptionModel.findOneAndUpdate(
+        {'userID': userID, 'subscriptions.serviceID': serviceID},
+        {$pull :{
+            subscriptions: {'serviceID': serviceID} 
+        }},
+        {new: true}
+    )
+    if(query){
+        return query
+    } else {
+        return null
+    }
+}
 
 exports.getRange = async (limit) => {
     const query = await UserSubscriptionModel.find({userID: {$lt: limit}}, (err,res)=>{
@@ -57,9 +73,13 @@ exports.getRange = async (limit) => {
             console.log("results length: ", res.length)
         }
         else {
-            console.log("error in finding users:", err.message) 
-            throw err;
+            console.log("error in finding users:") 
+            throw new Error(err.message);
         }
     }).limit(limit);
-    return query;
+    if(query){
+        return query
+    } else {
+        return null
+    }
 };

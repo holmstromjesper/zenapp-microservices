@@ -4,8 +4,8 @@ const thirdPartyServiceController = require("../controllers/thirdPartyController
 module.exports = (app) => {
 //returnes one or several services
   app.route('/services')
-    .get(thirdPartyServiceController.getAllServices) //works
-    .post(thirdPartyServiceController.getServices); //works
+    .get(thirdPartyServiceController.getAllServices) 
+    .post(thirdPartyServiceController.getServices); 
 
   //manages one service
   app.route('/service')

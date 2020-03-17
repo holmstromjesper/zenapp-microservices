@@ -33,7 +33,6 @@ Content-Type: application/json
 	},
 	"active": 1,
 	"settings": ["queuetime","distance"],
-    "experiment": 1
 }
 
 ###

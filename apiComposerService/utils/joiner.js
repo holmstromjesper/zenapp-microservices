@@ -1,7 +1,6 @@
 const _ = require('lodash-joins')
 
 exports.sortmergeJoin = async (objects) => {
-    console.log("performing join")
     userObject = objects[0];
     positionObject = objects[1];
     subscriptionObject = objects[2];

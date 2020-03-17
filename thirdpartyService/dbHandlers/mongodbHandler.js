@@ -14,94 +14,85 @@ db.on('error', console.error.bind(console, 'THIRDPARTYSERVICES MongoDB connectio
 
 //all
 exports.getAllServices = async () => {
-    return query = await ThirdPartyServiceModel.find({}).catch((err)=>{
-        console.log(err.message)
-        return false;
+    const query = await ThirdPartyServiceModel.find({}).catch((err)=>{
+        if(err){
+            console.log(err.message)
+        }
     });
+    if(query){
+        return query
+    } else {
+        return null
+    }
 }
 
 //one or more
 exports.getServices = async (serviceIDs) => {
-    console.log("serviceIDs in mongodbhandler",serviceIDs)
-        if(!serviceIDs.some(isNaN)){
-        const query = await ThirdPartyServiceModel.find({serviceID: {$in :serviceIDs}}, (err,res)=>{
-            if(!err){
-                console.log("res", res)
-            }
-            else {
-                console.log("error in callback:", err) 
-                throw err;
-            }
-        })
-        console.log("query",query);
+
+    const query = await ThirdPartyServiceModel.find({serviceID: {$in :serviceIDs}}, (err,res)=>{
+        if(err){
+            console.log("error in callback:", err.message) 
+        }
+    })
+
+    if(query){
         return query
-    }
-    else{
-        return "invalid input"
+    }else{
+        return null
     }
 }
 
 exports.getService = async (serviceID) => {
-    console.log("serviceIDs in mongodbhandler",serviceID)
-    if(!isNaN(serviceID)){
-        const query = await ThirdPartyServiceModel.find({serviceID: serviceID}, (err,res)=>{
-            if(!err){
-                console.log("res", res)
-            }
-            else {
-                console.log("gettings service:", err) 
-                throw err;
-            }
-        })
-        console.log("query",query);
+    const query = await ThirdPartyServiceModel.find({serviceID: serviceID}, (err,res)=>{
+        if(err) {
+            console.log("error in getting service:", err.message) 
+        }
+    })
+    if(query){
         return query
-    }
-    else{
-        return "invalid input"
+    } else {
+        return null
     }
 }
 
+
+
 exports.setServiceStatus = async ({serviceID, active}) => {
-    console.log(serviceID, active)
     var query = await ThirdPartyServiceModel.findOneAndUpdate({'serviceID': serviceID}, {'active': active}, {new:true}, (err, doc) => {
         if(err){
             console.log("error in updating")
-            throw err;
-        }
-        if(doc){
-            console.log("successfully updated")
         }
     })
-
-    return query;
+    if(query){
+        return query
+    } else {
+        return null
+    }
 }
 
 exports.addNewService = async (newServiceObject) => {
-    query = await ThirdPartyServiceModel.findOneAndUpdate(
+    const query = await ThirdPartyServiceModel.findOneAndUpdate(
         {serviceID: newServiceObject.serviceID}, 
         newServiceObject, 
         {upsert:true, new:true}, 
-        (err, res) => {
+        (err) => {
             if(err){
-                console.log(err)
-            }else{
-                console.log(res)
-            }
-        }).catch(err =>{
-            console.log(err.message)
+                console.log(err.message)}
         })
-    return query
+    if(query){
+        return query
+    } else {
+        return null
+    }
 };
 
 exports.getServiceUrls = async(subscriptions) => {
     let responsearray = []
     responsearray = subscriptions.map( async subscription => {
-        console.log('subscription in dbhandler',subscription)
         const url = await ThirdPartyServiceModel.findOne(
             {serviceID:subscription.serviceID},
             'serviceURL',
             )
-        console.log("url", url)
         subscription.serviceURL = url.serviceURL;
         return await subscription;
     }); 

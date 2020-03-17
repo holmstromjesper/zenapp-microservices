@@ -6,13 +6,9 @@ const servicesLat = 58.391620;
 exports.handle = async (position, settings) => {
     let userlong = position.long;
     let userlat = position.lat;
-    console.log(settings)
     let queuetimeSetting = settings.settings.queuetime;
     let distance = settings.settings.distance;
-    console.log("queuetime in carwash", queuetimeSetting)
-    console.log("distancesetting in carwash", distance)
-    console.log("userlat in carwash", userlat)
-    console.log("userlong in carwash", userlong)
+
     if(getDistanceFromLatLonInKm(servicesLat, serviceLong, userlat, userlong) < distance){
         const queuetime = 5;
 
@@ -57,7 +53,6 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
       ; 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
-    console.log("DISTANCE", d)
     return d;
   }
   

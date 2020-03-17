@@ -7,8 +7,7 @@ exports.getAllServices = async (req,res) => {
 }
 
 exports.getServices = async (req,res) => {
-
-    if(req.body.serviceIDs){
+    if(!serviceIDs.some(isNaN)){
         const serviceIDs = req.body.serviceIDs;
 
         let query = await mongoDBHandler.getServices(serviceIDs);
@@ -19,24 +18,22 @@ exports.getServices = async (req,res) => {
             res.status(400).send("no results were found");
         }
     } else {
-        res.status(200).send("no serviceIDs provided");
+        res.status(200).send("invalid input");
     }
-    
 }
 
 exports.addService = async (req, res) => {
-    mongoDBHandler.addNewService(req.body).then(response => {
-        if(response){
-            res.status(200).send("added service:" + response )
-        }
-        else{
-            res.status(400).send("Falied to save")
-        }
-    })
+    const serviceObject = req.body
+    const response = await mongoDBHandler.addNewService(serviceObject)
+    if(response){
+        res.status(200).send("added service:" + response )
+    }
+    else{
+        res.status(400).send("Falied to save")
+    }
 }
 exports.changeServiceStatus = async (req, res) =>{
-    response = await mongoDBHandler.setServiceStatus(req.body)
-    console.log(response)
+    const response = await mongoDBHandler.setServiceStatus(req.body)
     if(response){
         res.status(200).send(`succesfully changed status to: ${req.body.active},of service ${req.body.serviceID}` )
     }
@@ -46,9 +43,8 @@ exports.changeServiceStatus = async (req, res) =>{
 }
 
 exports.getService = async(req, res) =>{
-    console.log(req.query.serviceID)
     const serviceID = req.query.serviceID;
-    if(serviceID){
+    if(!isNaN(serviceID)){
         let query = await mongoDBHandler.getService(serviceID);
 
         if(query){
@@ -57,7 +53,7 @@ exports.getService = async(req, res) =>{
             res.status(400).send("no results were found");
         }
     } else {
-        res.status(200).send("no serviceIDs provided");
+        res.status(200).send("invalid input");
     }
     
 }
@@ -67,13 +63,9 @@ exports.getService = async(req, res) =>{
 exports.checkSubscriptions = async (req, res) => {
     const userSubscriptions = req.body.subscriptions;
     const position = req.body.position
+
     const extendedSubscriptions = await mongoDBHandler.getServiceUrls(userSubscriptions)
-    console.log("extendedSubscriptions", extendedSubscriptions)
     const serviceResults = await api.callServices(extendedSubscriptions, position);
-    console.log("results back in check", serviceResults)
-
-
-
     
     res.send(serviceResults);
 

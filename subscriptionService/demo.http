@@ -1,17 +1,32 @@
 ###
-GET http://localhost:80/subscriptions?userID=1 HTTP/1.1
+GET http://localhost:3001/subscription?userID=1 HTTP/1.1
 
 ###
-POST http://localhost:80/subscriptions HTTP/1.1
+POST http://localhost:3001/subscription HTTP/1.1
 Content-Type: application/json
 
 {
     "userID" : 1,
     "serviceobject": {
-        "serviceID": 12,
+        "serviceID": 13,
         "settings": {
         "queuetime": 25,
         "distance": 5
         }
     }
 }
+
+###
+DELETE http://localhost:3001/subscription?userID=1&serviceID=133 HTTP/1.1
+Content-Type: application/json
+
+###
+POST http://localhost:3001/subscriptions HTTP/1.1
+Content-Type: application/json
+
+{
+    "userIDs" : [1,2,3]
+}
+
+###
+GET http://localhost:3001/subscriptions?limit=a HTTP/1.1

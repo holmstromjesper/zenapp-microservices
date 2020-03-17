@@ -25,14 +25,12 @@ exports.getUserQuery = async (userID) => {
     const positionObject =  api.get(POSITIONSERVICE_URL, options)
     const subscriptionObject =  api.get(SUBSCRIPTIONSSERVICE_URL, options)
     const responses = await Promise.all([userObject,positionObject,subscriptionObject])
-    console.log("responses back in usercomposer",responses.length)
 
     if(!responses.includes(null) && responses.length == 3){
-        console.log("SÄTT IHOP")
         const merged = await joiner.sortmergeJoin(responses)
         return merged;
     } else {
-        console.log("SÄTT INTE I IHOP")
+        console.log("failed getting all data")
         return null;
     }
 }
@@ -53,12 +51,11 @@ exports.getUsersExperiment3Query = async (limit) => {
     const responses = await Promise.all([userObject,positionObject,subscriptionObject])
     
     if(!responses.includes(null) && responses.length == 3){
-      console.log("SÄTT IHOP")
       const merged = await joiner.sortmergeJoin(responses)
       return merged;
   } else {
-      console.log("SÄTT INTE I IHOP")
-      return null;
+    console.log("failed getting all data")
+    return null;
   }
 
 
