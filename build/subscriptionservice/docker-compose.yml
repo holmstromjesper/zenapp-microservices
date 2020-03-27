@@ -1,0 +1,16 @@
+version: '2.1'
+services:
+    subscriptionmongodb:
+        container_name: subscriptionmongodb
+        image: jesho280/zenapp-subscriptionservicemongodb:latest
+        ports: 
+            - 27017:27017
+    
+    subscriptionservice:
+        container_name: subscriptionservice
+        image: jesho280/zenapp-subscriptionservice:latest
+        restart: always
+        environment:
+            WAIT_HOSTS: subscriptionmongodb:27017
+        ports:
+            - 80:80

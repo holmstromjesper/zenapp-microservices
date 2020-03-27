@@ -1,0 +1,25 @@
+version: '2.1'
+services:
+    thirdpartyservicemongodb:
+        container_name: thirdpartyservicemongodb
+        image: jesho280/zenapp-thirdpartyservicemongodb:latest
+        ports: 
+          - 27017:27017
+
+    thirdpartyservice:
+        container_name: thirdpartyservice
+        image: jesho280/zenapp-thirdpartyservice:latest
+        restart: always
+        environment:
+            WAIT_HOSTS: thirdpartyservicemongodb:27017
+        ports:
+            - 80:80
+              
+    carwashservice:
+        container_name: carwashservice
+        image: jesho280/zenapp-carwashservice:latest
+        environment:
+            NODE_ENV: production
+        ports:
+            - 3000:3000
+

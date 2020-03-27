@@ -1,0 +1,16 @@
+version: '2.1'
+services:
+    usermongodb:
+        container_name: usermongodb
+        image: jesho280/zenapp-userservicemongodb:latest
+        ports: 
+            - 27017:27017
+    
+    userservice:
+        container_name: userservice
+        image: jesho280/zenapp-userservice:latest
+        restart: always
+        environment:
+            WAIT_HOSTS: usermongodb:27017
+        ports:
+            - 80:80

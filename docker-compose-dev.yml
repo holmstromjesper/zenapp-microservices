@@ -1,0 +1,109 @@
+version: '2.1'
+services:
+
+  ############################################## user service ##############################################
+
+  usermongodb:
+    container_name: usermongodb
+    build: ./userService/db
+    ports: 
+      - 27017:27017
+
+
+  userservice:
+    image: userservice
+    build: ./userService
+    volumes:
+      - ./userService:/src/app
+    environment:
+      WAIT_HOSTS: usermongodb:27017
+    ports:
+      - 80:80
+
+#   ############################################## subscription service ##############################################
+
+#   subscriptionmongodb:
+#     container_name: subscriptionmongodb
+#     build: ./subscriptionService/db
+#     ports: 
+#       - 27018:27017
+
+#   subscriptionservice:
+#     image: subscriptionservice
+#     build: ./subscriptionService
+#     volumes:
+#       - ./subscriptionService:/src/app
+#     environment:
+#       WAIT_HOSTS: subscriptionmongodb:27017
+#       NODE_ENV: production
+#     ports:
+#       - 3001:80
+
+# ############################################## position service ##############################################
+
+#   positionmongodb:
+#     container_name: positionmongodb
+#     build: ./positionService/db
+#     volumes:
+#       - /data/db
+#     ports: 
+#       - 27019:27017
+
+
+#   positionservice:
+#     image: positionservice
+#     build: ./positionService
+#     volumes:
+#       - ./positionService:/src/app
+#     ports:
+#       - 3002:80
+#     environment:
+#       WAIT_HOSTS: positionmongodb:27017
+
+      
+#   ############################################## thirdparty service ##############################################
+
+#   thirdpartyservicemongodb:
+#     container_name: thirdpartyservicemongodb
+#     build: ./thirdpartyService/db
+#     ports: 
+#       - 27020:27017
+
+
+#   thirdpartyservice:
+#     image: thirdpartyservice
+#     build: ./thirdpartyService
+#     volumes:
+#       - ./thirdpartyService:/src/app
+#     environment:
+#       WAIT_HOSTS: thirdpartyservicemongodb:27017
+#     ports:
+#       - 3003:80
+      
+# # ############################################ example carwash service ##############################################
+
+#   carwashservice:
+#     image: carwashservice
+#     build: ./carwashService
+#     volumes:
+#       - ./carwashService:/src/app
+#     environment:
+#       NODE_ENV: production
+#     ports:
+#       - 3004:80
+
+
+
+#   ############################################# API COMPOSER SERVICE ##############################################
+#   apicomposer:
+#     image: apicomposerservice
+#     build: ./apiComposerService
+#     volumes:
+#       - ./apiComposerService:/src/app
+#     environment:
+#       NODE_ENV: production
+#     ports:
+#       - 3005:80
+
+
+

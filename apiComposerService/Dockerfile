@@ -6,7 +6,7 @@ WORKDIR /src
 
 # install app dependencies
 ADD package.json /src/package.json
-ADD . /app
+ADD . /src/app
 RUN npm install
 
 # start app

@@ -1,0 +1,8 @@
+version: '2.1'
+services:
+    apicomposer:
+        container_name: apicomposer
+        image: jesho280/zenapp-apicomposerservice:latest
+        restart: always
+        ports:
+            - 80:80

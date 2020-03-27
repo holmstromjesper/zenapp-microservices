@@ -12,7 +12,6 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'USERSUBSCRIPTIONS MongoDB connection error:'))
 
 exports.getUserSubscriptions = async (userID) => {
-    console.log(typeof userID)
     var query = await UserSubscriptionModel.find({'userID': userID}, (err,res)=>{
         if(err){
             console.log("error in finding users subscriptions")
@@ -76,7 +75,7 @@ exports.getRange = async (limit) => {
             console.log("error in finding users:") 
             throw new Error(err.message);
         }
-    }).limit(limit);
+    })
     if(query){
         return query
     } else {

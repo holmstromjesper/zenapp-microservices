@@ -1,0 +1,16 @@
+version: '2.1'
+services:
+    positionmongodb:
+        container_name: positionmongodb
+        image: jesho280/zenapp-positionservicemongodb:latest
+        ports: 
+            - 27017:27017
+    
+    positionservice:
+        container_name: positionservice
+        image: jesho280/zenapp-positionservice:latest
+        restart: always
+        environment:
+            WAIT_HOSTS: positionmongodb:27017
+        ports:
+            - 80:80

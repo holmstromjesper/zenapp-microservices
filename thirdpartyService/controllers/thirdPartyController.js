@@ -23,7 +23,7 @@ exports.getServices = async (req,res) => {
 }
 
 exports.addService = async (req, res) => {
-    const serviceObject = req.body
+    const serviceObject = req.body.service
     const response = await mongoDBHandler.addNewService(serviceObject)
     if(response){
         res.status(200).send("added service:" + response )

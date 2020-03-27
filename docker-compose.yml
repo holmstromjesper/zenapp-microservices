@@ -13,55 +13,48 @@ services:
   # userservice:
   #   image: userservice
   #   build: ./userService
-  #   volumes:
-  #     - ./userService:/src/app
   #   environment:
   #     WAIT_HOSTS: usermongodb:27017
   #   ports:
-  #     - 3000:80
+  #     - 80:80
 
-  ############################################## subscription service ##############################################
+#   ############################################## subscription service ##############################################
 
-  subscriptionmongodb:
-    container_name: subscriptionmongodb
-    build: ./subscriptionService/db
-    ports: 
-      - 27018:27017
+  # subscriptionmongodb:
+  #   container_name: subscriptionmongodb
+  #   build: ./subscriptionService/db
+  #   ports: 
+  #     - 27017:27017
 
-  subscriptionservice:
-    image: subscriptionservice
-    build: ./subscriptionService
-    volumes:
-      - ./subscriptionService:/src/app
-    environment:
-      WAIT_HOSTS: subscriptionmongodb:27017
-      NODE_ENV: production
-    ports:
-      - 3001:80
+  # subscriptionservice:
+  #   image: subscriptionservice
+  #   build: ./subscriptionService
+  #   environment:
+  #     WAIT_HOSTS: subscriptionmongodb:27017
+  #   ports:
+  #     - 80:80
 
-############################################## position service ##############################################
+# ############################################## position service ##############################################
 
-  positionmongodb:
-    container_name: positionmongodb
-    build: ./positionService/db
-    volumes:
-      - /data/db
-    ports: 
-      - 27019:27017
+  # positionmongodb:
+  #   container_name: positionmongodb
+  #   build: ./positionService/db
+  #   volumes:
+  #     - /data/db
+  #   ports: 
+  #     - 27019:27017
 
 
-  positionservice:
-    image: positionservice
-    build: ./positionService
-    volumes:
-      - ./positionService:/src/app
-    ports:
-      - 3002:80
-    environment:
-      WAIT_HOSTS: positionmongodb:27017
+  # positionservice:
+  #   image: positionservice
+  #   build: ./positionService
+  #   ports:
+  #     - 80:80
+  #   environment:
+  #     WAIT_HOSTS: positionmongodb:27017
 
       
-  ############################################## thirdparty service ##############################################
+#   ############################################## thirdparty service ##############################################
 
   thirdpartyservicemongodb:
     container_name: thirdpartyservicemongodb
@@ -82,24 +75,28 @@ services:
       
 # ############################################ example carwash service ##############################################
 
-  # carwashservice:
-  #   image: carwashservice
-  #   build: ./carwashService
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 3004:80
+  carwashservice:
+    image: carwashservice
+    build: ./carwashService
+    volumes:
+      - ./carwashService:/src/app
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3004:3000
 
 
 
-  ############################################# API COMPOSER SERVICE ##############################################
-  # apicomposer:
-  #   image: apicomposerservice
-  #   build: ./apiComposerService
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 3005:80
+# #   ############################################# API COMPOSER SERVICE ##############################################
+#   apicomposer:
+#     image: apicomposerservice
+#     build: ./apiComposerService
+#     volumes:
+#       - ./apiComposerService:/src/app
+#     environment:
+#       NODE_ENV: production
+#     ports:
+#       - 80:80
 
 
 

@@ -72,12 +72,13 @@ exports.setServiceStatus = async ({serviceID, active}) => {
 
 exports.addNewService = async (newServiceObject) => {
     const query = await ThirdPartyServiceModel.findOneAndUpdate(
-        {serviceID: newServiceObject.serviceID}, 
+        {'serviceID': newServiceObject.serviceID}, 
         newServiceObject, 
         {upsert:true, new:true}, 
         (err) => {
             if(err){
-                console.log(err.message)}
+                console.log(err.message)
+            }
         })
     if(query){
         return query

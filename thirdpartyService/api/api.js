@@ -16,8 +16,9 @@ exports.callServices = async (subscriptions, position) => {
                 })
             }
         else {
-            let data = {position: position, settings: subscriptions}
-            return await fetch(subscription.serviceURL +"/handle", {
+            let data = {position: position, settings: subscription}
+            console.log(subscription)
+            return await fetch(subscription.serviceURL + "/handle", {
                 method: 'post', 
                 headers, 
                 body:JSON.stringify(data)
@@ -33,9 +34,12 @@ exports.callServices = async (subscriptions, position) => {
             }).catch(err => {
                 console.log("error in checking service")
                 return Promise.resolve({
-                    message: "service not available",
-                    serviceID: subscription.serviceID
-                })
+                    serviceID: subscription.serviceID,
+                    queueTime: "NA",
+                    location: "NA",
+                    message: "NA" ,
+                    alert: false
+                } )
                 
             })
         
