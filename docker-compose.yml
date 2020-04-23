@@ -68,7 +68,7 @@ services:
     build: ./thirdpartyService
     volumes:
       - ./thirdpartyService:/src/app
-      - ./thirdpartyService/package.json:/src/package.json
+  #    - ./thirdpartyService/package.json:/src/package.json
     environment:
       WAIT_HOSTS: thirdpartyservicemongodb:27017
     ports:
@@ -81,7 +81,7 @@ services:
     build: ./carwashService
     volumes:
       - ./carwashService:/src/app
-      - ./carwashService/package.json:/src/package.json
+ #     - ./carwashService/package.json:/src/package.json
     environment:
       NODE_ENV: production
     ports:
