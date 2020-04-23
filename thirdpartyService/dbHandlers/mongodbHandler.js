@@ -54,6 +54,18 @@ exports.getService = async (serviceID) => {
         return null
     }
 }
+exports.getServicePosition = async (serviceID) => {
+    const query = await ThirdPartyServiceModel.findOne({serviceID: serviceID},{position:1}, (err,res)=>{
+        if(err) {
+            console.log("error in getting service:", err.message) 
+        }
+    })
+    if(query){
+        return query
+    } else {
+        return null
+    }
+}
 
 
 
@@ -89,7 +101,7 @@ exports.addNewService = async (newServiceObject) => {
 
 exports.getServiceUrls = async(subscriptions) => {
     let responsearray = []
-    responsearray = subscriptions.map( async subscription => {
+    responsearray = subscriptions.map(async subscription => {
         const url = await ThirdPartyServiceModel.findOne(
             {serviceID:subscription.serviceID},
             'serviceURL',

@@ -11,7 +11,7 @@ GET http://localhost:80/subscription?userID=1 HTTP/1.1
 Content-Type: application/json
 
 ### EXPERIMENT 2
-GET http://localhost:80/usercompose?userID=1 HTTP/1.1
+GET http://localhost:2999/usercompose?userID=1 HTTP/1.1
 
 
 ### EXPERIMENT 3
@@ -94,16 +94,28 @@ GET http://localhost:3003/service?serviceID=0 HTTP/1.1
 Content-Type: application/json
 
 ### UPDATE URLS FOR COMPOSER 
-POST http://localhost:3005/serviceurls HTTP/1.1
+POST http://localhost:2999/serviceurls HTTP/1.1
 Content-Type: application/json
 
 {
-    "USERSERVICE_URL":"http://userservice:80/user",
-    "POSITIONSERVICE_URL":"http://positionservice:80/position",
-    "SUBSCRIPTIONSSERVICE_URL":"http://subscriptionservice:80/subscription",
-    "USERSERVICE_EXPERIMENT3_URL": "http://userservice:80/users",
-    "POSITION_EXPERIMENT3_URL" : "http://positionservice:80/positions",
-    "SUBSCRIPTIONSERVICE_EXPERIMENT3_URL" : "http://subscriptionservice:80/subscriptions"
+    "USERSERVICE_URL":"http://userservice:3002/user",
+    "POSITIONSERVICE_URL":"http://positionservice:3000/position",
+    "SUBSCRIPTIONSSERVICE_URL":"http://subscriptionservice:3001/subscription",
+    "USERSERVICE_EXPERIMENT3_URL": "http://userservice:3002/users",
+    "POSITION_EXPERIMENT3_URL" : "http://positionservice:3000/positions",
+    "SUBSCRIPTIONSERVICE_EXPERIMENT3_URL" : "http://subscriptionservice:3001/subscriptions"
+}
+###
+POST http://localhost:2999/serviceurls HTTP/1.1
+Content-Type: application/json
+
+{
+    "USERSERVICE_URL":"http://localhost:3002/user",
+    "POSITIONSERVICE_URL":"http://localhost:3000/position",
+    "SUBSCRIPTIONSSERVICE_URL":"http://localhost:3001/subscription",
+    "USERSERVICE_EXPERIMENT3_URL": "http://localhost:3002/users",
+    "POSITION_EXPERIMENT3_URL" : "http://localhost:3000/positions",
+    "SUBSCRIPTIONSERVICE_EXPERIMENT3_URL" : "http://localhost:3001/subscriptions"
 }
 
 

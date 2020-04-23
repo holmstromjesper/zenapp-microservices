@@ -1,9 +1,9 @@
 
 ###
-GET http://localhost/services HTTP/1.1
+GET http://localhost:3003/services HTTP/1.1
 
 ###
-GET http://localhost/service?serviceID=1 HTTP/1.1
+GET http://localhost:3003/service?serviceID=0 HTTP/1.1
 
 ###
 GET https://zenapp-thirdpartyservice.azurewebsites.net/service?serviceID=1 HTTP/1.1
@@ -18,13 +18,13 @@ Content-Type: application/json
 
 
 ###
-POST https://zenapp-thirdpartyservice.azurewebsites.net/service HTTP/1.1
+POST http://localhost:3003/service HTTP/1.1
 Content-Type: application/json
 
 {
-	"serviceID": 621,
+	"serviceID": 0,
     "serviceName": "this the newest service",
-    "serviceURL": "https://mockservice601",
+    "serviceURL": "http://carwashservice:3000",
     "serviceType": "carwash",
     "description": "The new service object 1",
 	"posistion": {
@@ -32,7 +32,7 @@ Content-Type: application/json
 		"long": 15.549027
 	},
 	"active": 1,
-	"settings": ["queuetime","distance"],
+	"settings": ["queuetime","distance"]
 }
 
 ###
@@ -74,7 +74,7 @@ Content-Type: application/json
     ]
 }
 ###
-POST http://localhost/checksubscriptions HTTP/1.1
+POST http://localhost:3003/checksubscriptions HTTP/1.1
 Content-Type: application/json
 
 {
@@ -86,7 +86,7 @@ Content-Type: application/json
         {"serviceID": 0,
             "settings":{
                 "queuetime": 300,
-                "distance": 1000
+                "distance": 100
             }
         },
         {"serviceID": 1,
@@ -105,7 +105,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/handle HTTP/1.1
+POST http://localhost:3004/handle HTTP/1.1
 Content-Type: application/json
 
 {

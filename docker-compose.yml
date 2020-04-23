@@ -16,7 +16,7 @@ services:
   #   environment:
   #     WAIT_HOSTS: usermongodb:27017
   #   ports:
-  #     - 80:80
+  #     - 3002:80
 
 #   ############################################## subscription service ##############################################
 
@@ -24,7 +24,7 @@ services:
   #   container_name: subscriptionmongodb
   #   build: ./subscriptionService/db
   #   ports: 
-  #     - 27017:27017
+  #     - 27018:27017
 
   # subscriptionservice:
   #   image: subscriptionservice
@@ -32,7 +32,7 @@ services:
   #   environment:
   #     WAIT_HOSTS: subscriptionmongodb:27017
   #   ports:
-  #     - 80:80
+  #     - 3001:80
 
 # ############################################## position service ##############################################
 
@@ -49,7 +49,7 @@ services:
   #   image: positionservice
   #   build: ./positionService
   #   ports:
-  #     - 80:80
+  #     - 3000:80
   #   environment:
   #     WAIT_HOSTS: positionmongodb:27017
 
@@ -68,6 +68,7 @@ services:
     build: ./thirdpartyService
     volumes:
       - ./thirdpartyService:/src/app
+      - ./thirdpartyService/package.json:/src/package.json
     environment:
       WAIT_HOSTS: thirdpartyservicemongodb:27017
     ports:
@@ -80,23 +81,24 @@ services:
     build: ./carwashService
     volumes:
       - ./carwashService:/src/app
+      - ./carwashService/package.json:/src/package.json
     environment:
       NODE_ENV: production
     ports:
-      - 3004:3000
+      - 3000:3000
 
 
 
 # #   ############################################# API COMPOSER SERVICE ##############################################
-#   apicomposer:
-#     image: apicomposerservice
-#     build: ./apiComposerService
-#     volumes:
-#       - ./apiComposerService:/src/app
-#     environment:
-#       NODE_ENV: production
-#     ports:
-#       - 80:80
+  # apicomposer:
+  #   image: apicomposerservice
+  #   build: ./apiComposerService
+  #   volumes:
+  #     - ./apiComposerService:/src/app
+  #   environment:
+  #     NODE_ENV: production
+  #   ports:
+  #     - 2999:80
 
 
 

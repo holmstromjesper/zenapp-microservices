@@ -1,15 +1,18 @@
 const api = require('../api/userAPI')
 const joiner = require('../utils/joiner')
 
-let USERSERVICE_URL="https://zenapp-userservice.azurewebsites.net/user"
-let POSITIONSERVICE_URL="https://zenapp-positionservice.azurewebsites.net/position"
-let SUBSCRIPTIONSSERVICE_URL="https://zenapp-subscriptionservice.azurewebsites.net/subscription"
-let USERSERVICE_EXPERIMENT3_URL = "https://zenapp-userservice.azurewebsites.net/users"
-let POSITION_EXPERIMENT3_URL = "https://zenapp-positionservice.azurewebsites.net/positions"
-let SUBSCRIPTIONSERVICE_EXPERIMENT3_URL = "https://zenapp-subscriptionservice.azurewebsites.net/subscriptions"
-
-
-
+// let USERSERVICE_URL="https://zenapp-userservice.azurewebsites.net/user"
+// let POSITIONSERVICE_URL="https://zenapp-positionservice.azurewebsites.net/position"
+// let SUBSCRIPTIONSSERVICE_URL="https://zenapp-subscriptionservice.azurewebsites.net/subscription"
+// let USERSERVICE_EXPERIMENT3_URL = "https://zenapp-userservice.azurewebsites.net/users"
+// let POSITION_EXPERIMENT3_URL = "https://zenapp-positionservice.azurewebsites.net/positions"
+// let SUBSCRIPTIONSERVICE_EXPERIMENT3_URL = "https://zenapp-subscriptionservice.azurewebsites.net/subscriptions"
+let USERSERVICE_URL="http://userservice:80/user"
+let POSITIONSERVICE_URL="http://positionservice:80/position"
+let SUBSCRIPTIONSSERVICE_URL="http://subscriptionservice:80/subscription"
+let USERSERVICE_EXPERIMENT3_URL = "http://userservice:80/users"
+let POSITION_EXPERIMENT3_URL = "http://positionservice:80/positions"
+let SUBSCRIPTIONSERVICE_EXPERIMENT3_URL = "http://subscriptionservice:80/subscriptions"
 
 
 exports.getUserQuery = async (userID) => {

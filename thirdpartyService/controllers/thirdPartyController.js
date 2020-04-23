@@ -23,6 +23,7 @@ exports.getServices = async (req,res) => {
 }
 
 exports.addService = async (req, res) => {
+
     const serviceObject = req.body.service
     const response = await mongoDBHandler.addNewService(serviceObject)
     if(response){
@@ -46,7 +47,6 @@ exports.getService = async(req, res) =>{
     const serviceID = req.query.serviceID;
     if(!isNaN(serviceID)){
         let query = await mongoDBHandler.getService(serviceID);
-
         if(query){
             res.status(200).send(query);
         } else {
@@ -55,17 +55,15 @@ exports.getService = async(req, res) =>{
     } else {
         res.status(200).send("invalid input");
     }
-    
 }
-
 
 
 exports.checkSubscriptions = async (req, res) => {
     const userSubscriptions = req.body.subscriptions;
     const position = req.body.position
 
-    const extendedSubscriptions = await mongoDBHandler.getServiceUrls(userSubscriptions)
-    const serviceResults = await api.callServices(extendedSubscriptions, position);
+    // const extendedSubscriptions = await mongoDBHandler.getServiceUrls(userSubscriptions)
+    const serviceResults = await api.callServices(userSubscriptions, position);
     
     res.send(serviceResults);
 
